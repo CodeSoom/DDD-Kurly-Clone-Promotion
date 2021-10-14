@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Test
+        run: ./gradlew test
+      - name: Build with Gradle
+        run: ./gradlew assemble
+      - name: Docker build
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets
+          .DOCKER_PASSWORD }}
+          docker build -t kurly-clone-promotion .
+          docker tag kurly-clone-promotion hannut1/kurly-clone-promotion:${GITHUB_SHA::7}
+          docker push hannut1/kurly-clone-promotion:${GITHUB_SHA::7}
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            docker pull hannut1/kurly-clone-promotion:${GITHUB_SHA::7}
+            docker tag hannut1/kurly-clone-promotion:${GITHUB_SHA::7} kurly-clone-promotion
+            docker stop server
+            docker container rm server
+            docker run -d --name server --restart always -p 80:8080 kurly-clone-promotion
