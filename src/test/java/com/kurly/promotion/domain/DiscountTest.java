@@ -21,7 +21,7 @@ class DiscountTest {
     void registerTo_registers() {
         Discount discount = Discount.createFlatRateDiscount(10);
 
-        discount.attach(PRODUCT_ID);
+        discount.apply(PRODUCT_ID);
 
         assertThat(discount.getProductId()).isEqualTo(PRODUCT_ID);
     }
