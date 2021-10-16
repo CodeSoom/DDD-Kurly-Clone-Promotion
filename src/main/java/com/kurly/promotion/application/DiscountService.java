@@ -19,7 +19,7 @@ public class DiscountService {
             Long productId
     ) {
         Discount discount = Discount.createFlatRateDiscount(flatRate);
-        discount.attach(productId);
+        discount.apply(productId);
 
         Discount savedDiscount = discountRepository.save(discount);
 

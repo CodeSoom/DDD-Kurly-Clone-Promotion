@@ -31,7 +31,7 @@ public class Discount {
         return new Discount(flatRate);
     }
 
-    public void attach(Long productId) {
+    public void apply(Long productId) {
         this.productId = productId;
     }
 }
