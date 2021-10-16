@@ -16,7 +16,7 @@ class DiscountTest {
         assertThat(discount.getFlatRate()).isEqualTo(10);
     }
 
-    @DisplayName("attach는 할인 대상 상품을 정합니다.")
+    @DisplayName("할인을 상품에 적용할 수 있습니다.")
     @Test
     void registerTo_registers() {
         Discount discount = Discount.createFlatRateDiscount(10);
