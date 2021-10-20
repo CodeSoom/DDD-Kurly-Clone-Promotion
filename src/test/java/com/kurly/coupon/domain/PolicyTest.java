@@ -10,6 +10,6 @@ class PolicyTest {
     @DisplayName("쿠폰 정책은 정액할인과 정률할인으로 구성된다.")
     @Test
     void policy() {
-        assertThat(Policy.values()).containsExactlyInAnyOrder(Policy.FLAT, Policy.FIX);
+        assertThat(Policy.values()).containsExactlyInAnyOrder(Policy.FLAT, Policy.FIXED);
     }
 }
