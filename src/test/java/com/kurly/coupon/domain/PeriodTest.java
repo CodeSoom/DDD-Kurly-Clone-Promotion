@@ -44,4 +44,11 @@ class PeriodTest {
         assertThatCode(() -> Period.createPeriod(startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("빈 값 입력시 예외를 던진다.")
+    @Test
+    void create_with_null_period() {
+        assertThatCode(() -> Period.createPeriod(null, null))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
