@@ -7,14 +7,14 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CouponNumberTest {
+class CouponCodeTest {
 
-    @DisplayName("쿠폰 번호를 생성할 수 있다.")
+    @DisplayName("쿠폰 코드를 생성할 수 있다.")
     @Test
     void crate() {
         final String givenNumber = UUID.randomUUID().toString();
-        final CouponNumber couponNumber = CouponNumber.of(givenNumber);
+        final CouponCode couponCode = CouponCode.of(givenNumber);
 
-        assertThat(couponNumber.getValue()).isEqualTo(givenNumber);
+        assertThat(couponCode.getValue()).isEqualTo(givenNumber);
     }
 }

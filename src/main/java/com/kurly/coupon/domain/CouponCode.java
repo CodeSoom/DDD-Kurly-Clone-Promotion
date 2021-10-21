@@ -8,16 +8,16 @@ import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class CouponNumber {
+public class CouponCode {
 
     private String value;
 
-    private CouponNumber(String value) {
+    private CouponCode(String value) {
         this.value = value;
     }
 
-    public static CouponNumber of(String value) {
-        return new CouponNumber(value);
+    public static CouponCode of(String value) {
+        return new CouponCode(value);
     }
 
     public String getValue() {
@@ -27,8 +27,8 @@ public class CouponNumber {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CouponNumber)) return false;
-        CouponNumber that = (CouponNumber) o;
+        if (!(o instanceof CouponCode)) return false;
+        CouponCode that = (CouponCode) o;
         return Objects.equals(getValue(), that.getValue());
     }
 

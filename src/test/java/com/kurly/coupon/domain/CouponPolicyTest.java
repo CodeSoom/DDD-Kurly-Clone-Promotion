@@ -15,7 +15,7 @@ class CouponPolicyTest {
     @Test
     void coupon_name() {
         final Name GIVEN_NAME = Name.of("test");
-        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(GIVEN_NAME, new CouponNumber(), new Period(), new Amount(), new Count());
+        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(GIVEN_NAME, new CouponCode(), new Period(), new Amount(), new Count());
 
         assertThat(couponPolicy.getName()).isNotNull();
     }
@@ -23,9 +23,9 @@ class CouponPolicyTest {
     @DisplayName("쿠폰은 쿠폰번호를 가진다.")
     @Test
     void coupon_number() {
-        final CouponNumber couponNumber = CouponNumber.of(UUID.randomUUID().toString());
-        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), couponNumber, new Period(), new Amount(), new Count());
-        assertThat(couponPolicy.getCouponNumber()).isNotNull();
+        final CouponCode couponCode = CouponCode.of(UUID.randomUUID().toString());
+        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), couponCode, new Period(), new Amount(), new Count());
+        assertThat(couponPolicy.getCouponCode()).isNotNull();
     }
 
     @DisplayName("쿠폰은 시작일과 만료일의 기간을 가진다.")
@@ -35,7 +35,7 @@ class CouponPolicyTest {
         final LocalDate endDate = LocalDate.of(2030, 12, 31);
         final Period period = Period.createPeriod(startDate, endDate);
 
-        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), new CouponNumber(), period, new Amount(), new Count());
+        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), new CouponCode(), period, new Amount(), new Count());
 
         assertAll(
                 () -> assertThat(couponPolicy.getPeriod().getStartDate()).isNotNull(),
@@ -46,7 +46,7 @@ class CouponPolicyTest {
     @DisplayName("쿠폰은 정률 할인 정책을 가진다.")
     @Test
     void flat_policy() {
-        CouponPolicy couponPolicy = CouponPolicy.createWithRatePolicy(new Name(), new CouponNumber(), new Period(), Rate.valueOf(50), new Count());
+        CouponPolicy couponPolicy = CouponPolicy.createWithRatePolicy(new Name(), new CouponCode(), new Period(), Rate.valueOf(50), new Count());
 
         assertAll(
                 () -> assertThat(couponPolicy.getPolicy()).isEqualTo(Policy.FLAT_RATE),
@@ -57,7 +57,7 @@ class CouponPolicyTest {
     @DisplayName("쿠폰은 정액 할인 정책을 가진다.")
     @Test
     void fix_policy() {
-        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), new CouponNumber(), new Period(), new Amount(), new Count());
+        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), new CouponCode(), new Period(), new Amount(), new Count());
 
         assertThat(couponPolicy.getPolicy()).isEqualTo(Policy.FIXED_AMOUNT);
     }
@@ -65,7 +65,7 @@ class CouponPolicyTest {
     @DisplayName("쿠폰을 만들 개수를 지정할 수 있다.")
     @Test
     void count() {
-        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), new CouponNumber(), new Period(), new Amount(), Count.valueOf(5));
+        final CouponPolicy couponPolicy = CouponPolicy.createWithFixedPolicy(new Name(), new CouponCode(), new Period(), new Amount(), Count.valueOf(5));
 
         assertThat(couponPolicy.getCount()).isEqualTo(5);
     }
