@@ -18,7 +18,7 @@ public class Name {
         this.value = value;
     }
 
-    public static Name of(String name) {
+    public static Name valueOf(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException(BLANK_NOT_ALLOWED);
         }

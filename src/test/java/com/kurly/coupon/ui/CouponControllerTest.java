@@ -45,6 +45,7 @@ class CouponControllerTest {
                 .name("amount policy")
                 .amount(100)
                 .count(100)
+                .keyword("여름할인")
                 .policy(Policy.FIXED_AMOUNT)
                 .startDate(LocalDate.of(2030, 1, 1))
                 .endDate(LocalDate.of(2030, 12, 31))
@@ -54,7 +55,7 @@ class CouponControllerTest {
                 .build();
     }
 
-    @DisplayName("POST 요청은 올바른 쿠폰 정보가 주어진다면 상태코드 201 Created 를 응답한다.")
+    @DisplayName("POST 요청은 올바른 쿠폰정책 정보가 주어진다면 상태코드 201 Created 를 응답한다.")
     @Test
     void registerWithValidCouponRegisterData() throws Exception {
         given(couponService.registerPolicy(any(CouponPolicyRegisterData.class)))
@@ -67,7 +68,7 @@ class CouponControllerTest {
                 .andExpect(status().isCreated());
     }
 
-    @DisplayName("POST 요청은 올바르지 않은 할인 정보가 주어진다면 상태코드 400 BadRequest 를 응답한다.")
+    @DisplayName("POST 요청은 올바르지 않은 쿠폰정책 정보가 주어진다면 상태코드 400 BadRequest 를 응답한다.")
     @Test
     void registerWithInValidDiscountRegisterData() throws Exception {
         mockMvc.perform(post("/coupons/policies")

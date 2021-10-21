@@ -1,10 +1,6 @@
 package com.kurly.coupon.domain;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * 정률 할인.
@@ -20,8 +16,8 @@ public class FlatRate extends CouponPolicy {
     @AttributeOverride(name = "value", column = @Column(name = "rate"))
     private Rate rate;
 
-    public FlatRate(Name name, CouponCode couponCode, Period period, Rate rate, Count count) {
-        super(name, couponCode, period, Policy.FLAT_RATE, count);
+    public FlatRate(Name name, Keyword keyword, Period period, Rate rate, Count count) {
+        super(name, keyword, period, Policy.FLAT_RATE, count);
         this.rate = rate;
     }
 

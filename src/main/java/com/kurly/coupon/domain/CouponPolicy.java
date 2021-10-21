@@ -5,18 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -39,7 +28,7 @@ public class CouponPolicy extends BaseEntity {
      */
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "coupon_number", nullable = false))
-    private CouponCode couponCode;
+    private Keyword keyword;
 
     /**
      * 기간.
@@ -60,24 +49,24 @@ public class CouponPolicy extends BaseEntity {
     @AttributeOverride(name = "value", column = @Column(name = "count"))
     private Count count;
 
-    public CouponPolicy(Name name, CouponCode couponCode, Period period, Policy policy, Count count) {
+    public CouponPolicy(Name name, Keyword keyword, Period period, Policy policy, Count count) {
         this.name = name;
-        this.couponCode = couponCode;
+        this.keyword = keyword;
         this.period = period;
         this.policy = policy;
         this.count = count;
     }
 
-    public static CouponPolicy createWithFixedPolicy(Name name, CouponCode couponCode, Period period, Amount amount, Count count) {
-        return new FixedAmount(name, couponCode, period, amount, count);
+    public static CouponPolicy createWithFixedPolicy(Name name, Keyword keyword, Period period, Amount amount, Count count) {
+        return new FixedAmount(name, keyword, period, amount, count);
     }
 
-    public static CouponPolicy createWithRatePolicy(Name name, CouponCode couponCode, Period period, Rate rate, Count count) {
-        return new FlatRate(name, couponCode, period, rate, count);
+    public static CouponPolicy createWithRatePolicy(Name name, Keyword keyword, Period period, Rate rate, Count count) {
+        return new FlatRate(name, keyword, period, rate, count);
     }
 
-    public String getCouponCode() {
-        return couponCode.getValue();
+    public String getKeyword() {
+        return keyword.getValue();
     }
 
     public Period getPeriod() {

@@ -19,16 +19,20 @@ public class CouponPolicyRegisterData {
     private LocalDate endDate;
     @NotNull
     private Policy policy;
+    @NotNull
+    private String keyword;
     private Integer rate;
     private Integer count;
     private Integer amount;
 
+
     @Builder
-    public CouponPolicyRegisterData(String name, LocalDate startDate, LocalDate endDate, Policy policy, Integer rate, Integer count, Integer amount) {
+    public CouponPolicyRegisterData(String name, LocalDate startDate, LocalDate endDate, Policy policy, String keyword, Integer rate, Integer count, Integer amount) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.policy = policy;
+        this.keyword = keyword;
         this.rate = rate;
         this.count = count;
         this.amount = amount;

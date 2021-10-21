@@ -1,13 +1,7 @@
 package com.kurly.coupon.application;
 
 import com.kurly.coupon.application.factory.FactoryPolicies;
-import com.kurly.coupon.domain.Amount;
-import com.kurly.coupon.domain.Count;
-import com.kurly.coupon.domain.CouponCode;
-import com.kurly.coupon.domain.CouponPolicy;
-import com.kurly.coupon.domain.Name;
-import com.kurly.coupon.domain.Period;
-import com.kurly.coupon.domain.Policy;
+import com.kurly.coupon.domain.*;
 import com.kurly.coupon.dto.CouponPolicyRegisterData;
 import com.kurly.coupon.infra.CouponPolicyRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,8 +58,8 @@ class CouponServiceTest {
         couponService = new CouponService(couponPolicyRepository, new FactoryPolicies());
 
         createdPolicy = CouponPolicy.createWithFixedPolicy(
-                Name.of(givenName),
-                CouponCode.of(givenCouponNumber),
+                Name.valueOf(givenName),
+                Keyword.valueOf(givenCouponNumber),
                 givenPeriod,
                 Amount.valueOf(givenAmount),
                 Count.valueOf(givenCount)

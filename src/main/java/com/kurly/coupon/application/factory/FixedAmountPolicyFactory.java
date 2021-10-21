@@ -1,22 +1,11 @@
 package com.kurly.coupon.application.factory;
 
-import com.kurly.coupon.domain.Amount;
-import com.kurly.coupon.domain.Count;
-import com.kurly.coupon.domain.CouponCode;
-import com.kurly.coupon.domain.CouponPolicy;
-import com.kurly.coupon.domain.Name;
-import com.kurly.coupon.domain.Period;
-import com.kurly.coupon.domain.Policy;
+import com.kurly.coupon.domain.*;
 import com.kurly.coupon.dto.CouponPolicyRegisterData;
 
 import java.util.Objects;
 
 public class FixedAmountPolicyFactory implements PolicyFactory {
-    private final CouponNumberGenerator couponNumberGenerator;
-
-    public FixedAmountPolicyFactory(CouponNumberGenerator couponNumberGenerator) {
-        this.couponNumberGenerator = couponNumberGenerator;
-    }
 
     @Override
     public boolean matchPolicy(Policy policy) {
@@ -25,12 +14,12 @@ public class FixedAmountPolicyFactory implements PolicyFactory {
 
     @Override
     public CouponPolicy createPolicy(CouponPolicyRegisterData dto) {
-        final CouponCode generatedNumber = CouponCode.of(couponNumberGenerator.generate());
+        final Keyword keyword = Keyword.valueOf(dto.getKeyword());
         final Period period = Period.createPeriod(dto.getStartDate(), dto.getEndDate());
-        final Name name = Name.of(dto.getName());
+        final Name name = Name.valueOf(dto.getName());
         final Amount amount = Amount.valueOf(dto.getAmount());
         final Count count = Count.valueOf(dto.getCount());
 
-        return CouponPolicy.createWithFixedPolicy(name, generatedNumber, period, amount, count);
+        return CouponPolicy.createWithFixedPolicy(name, keyword, period, amount, count);
     }
 }

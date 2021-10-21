@@ -9,13 +9,11 @@ import java.util.List;
 @Component
 public class FactoryPolicies {
     public final List<PolicyFactory> policyFactories;
-    private final CouponNumberGenerator couponNumberGenerator;
 
     public FactoryPolicies() {
-        this.couponNumberGenerator = new UuidGenerator();
         this.policyFactories = List.of(
-                new FlatRatePolicyFactory(couponNumberGenerator),
-                new FixedAmountPolicyFactory(couponNumberGenerator)
+                new FlatRatePolicyFactory(),
+                new FixedAmountPolicyFactory()
         );
     }
 

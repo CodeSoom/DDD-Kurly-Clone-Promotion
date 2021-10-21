@@ -11,7 +11,7 @@ class NameTest {
 
     @Test
     void create() {
-        final Name name = Name.of("첫설문 참여 감사 할인");
+        final Name name = Name.valueOf("첫설문 참여 감사 할인");
 
         assertThat(name).isNotNull();
     }
@@ -19,6 +19,6 @@ class NameTest {
     @ParameterizedTest
     @NullAndEmptySource
     void create_with_blank_data(String givenName) {
-        assertThatCode(() -> Name.of(givenName)).isInstanceOf(IllegalArgumentException.class);
+        assertThatCode(() -> Name.valueOf(givenName)).isInstanceOf(IllegalArgumentException.class);
     }
 }
