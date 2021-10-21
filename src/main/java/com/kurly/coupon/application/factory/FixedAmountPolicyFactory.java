@@ -1,25 +1,25 @@
 package com.kurly.coupon.application.factory;
 
 import com.kurly.coupon.domain.*;
-import com.kurly.coupon.dto.CouponPolicyRegisterData;
+import com.kurly.coupon.dto.CouponPolicyPublishData;
 
 import java.util.Objects;
 
 public class FixedAmountPolicyFactory implements PolicyFactory {
 
     @Override
-    public boolean matchPolicy(Policy policy) {
-        return Objects.equals(Policy.FIXED_AMOUNT, policy);
+    public boolean matchPolicy(PolicyType policyType) {
+        return Objects.equals(PolicyType.FIXED_AMOUNT, policyType);
     }
 
     @Override
-    public CouponPolicy createPolicy(CouponPolicyRegisterData dto) {
+    public CouponPolicy publishPolicy(CouponPolicyPublishData dto) {
         final Keyword keyword = Keyword.valueOf(dto.getKeyword());
         final Period period = Period.createPeriod(dto.getStartDate(), dto.getEndDate());
         final Name name = Name.valueOf(dto.getName());
         final Amount amount = Amount.valueOf(dto.getAmount());
         final Count count = Count.valueOf(dto.getCount());
 
-        return CouponPolicy.createWithFixedPolicy(name, keyword, period, amount, count);
+        return CouponPolicy.publishFixedAmountPolicy(name, keyword, period, amount, count);
     }
 }

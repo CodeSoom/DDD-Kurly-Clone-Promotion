@@ -3,8 +3,8 @@ package com.kurly.coupon.application.factory;
 import com.kurly.coupon.domain.CouponPolicy;
 import com.kurly.coupon.domain.FixedAmount;
 import com.kurly.coupon.domain.FlatRate;
-import com.kurly.coupon.domain.Policy;
-import com.kurly.coupon.dto.CouponPolicyRegisterData;
+import com.kurly.coupon.domain.PolicyType;
+import com.kurly.coupon.dto.CouponPolicyPublishData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,8 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FactoryPoliciesTest {
 
-    private CouponPolicyRegisterData flatRateRegisterData;
-    private CouponPolicyRegisterData fixedAmountRegisterData;
+    private CouponPolicyPublishData flatRateRegisterData;
+    private CouponPolicyPublishData fixedAmountRegisterData;
 
     private FactoryPolicies factoryPolicies;
 
@@ -36,20 +36,20 @@ class FactoryPoliciesTest {
         givenRate = 10;
         givenCount = 100;
 
-        flatRateRegisterData = CouponPolicyRegisterData.builder()
+        flatRateRegisterData = CouponPolicyPublishData.builder()
                 .name(givenName)
                 .rate(givenRate)
                 .count(givenCount)
-                .policy(Policy.FLAT_RATE)
+                .policyType(PolicyType.FLAT_RATE)
                 .startDate(givenStartDate)
                 .endDate(givenEndDate)
                 .build();
 
-        fixedAmountRegisterData = CouponPolicyRegisterData.builder()
+        fixedAmountRegisterData = CouponPolicyPublishData.builder()
                 .name(givenName)
                 .amount(givenAmount)
                 .count(givenCount)
-                .policy(Policy.FIXED_AMOUNT)
+                .policyType(PolicyType.FIXED_AMOUNT)
                 .startDate(givenStartDate)
                 .endDate(givenEndDate)
                 .build();
@@ -59,7 +59,7 @@ class FactoryPoliciesTest {
     @Test
     void create_flat_rate() {
         // when
-        final CouponPolicy actual = factoryPolicies.create(flatRateRegisterData);
+        final CouponPolicy actual = factoryPolicies.publishPolicy(flatRateRegisterData);
 
         // then
         assertThat(actual).isInstanceOf(FlatRate.class);
@@ -69,7 +69,7 @@ class FactoryPoliciesTest {
     @Test
     void create_fixed_amount() {
         // when
-        final CouponPolicy actual = factoryPolicies.create(fixedAmountRegisterData);
+        final CouponPolicy actual = factoryPolicies.publishPolicy(fixedAmountRegisterData);
 
         // then
         assertThat(actual).isInstanceOf(FixedAmount.class);

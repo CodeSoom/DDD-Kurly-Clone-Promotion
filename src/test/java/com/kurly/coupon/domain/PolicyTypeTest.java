@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PolicyTest {
+class PolicyTypeTest {
 
     @DisplayName("쿠폰 정책은 정액할인과 정률할인으로 구성된다.")
     @Test
     void policy() {
-        assertThat(Policy.values()).containsExactlyInAnyOrder(Policy.FLAT_RATE, Policy.FIXED_AMOUNT);
+        assertThat(PolicyType.values()).containsExactlyInAnyOrder(PolicyType.FLAT_RATE, PolicyType.FIXED_AMOUNT);
     }
 }

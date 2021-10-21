@@ -1,7 +1,7 @@
 package com.kurly.coupon.application.factory;
 
 import com.kurly.coupon.domain.CouponPolicy;
-import com.kurly.coupon.dto.CouponPolicyRegisterData;
+import com.kurly.coupon.dto.CouponPolicyPublishData;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,10 +17,10 @@ public class FactoryPolicies {
         );
     }
 
-    public CouponPolicy create(CouponPolicyRegisterData dto) {
+    public CouponPolicy publishPolicy(CouponPolicyPublishData dto) {
         return policyFactories.stream()
-                .filter(v -> v.matchPolicy(dto.getPolicy()))
-                .map(v -> v.createPolicy(dto))
+                .filter(v -> v.matchPolicy(dto.getPolicyType()))
+                .map(v -> v.publishPolicy(dto))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }

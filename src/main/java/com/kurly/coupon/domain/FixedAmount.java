@@ -20,7 +20,7 @@ public class FixedAmount extends CouponPolicy {
     }
 
     public FixedAmount(Name name, Keyword keyword, Period period, Amount amount, Count count) {
-        super(name, keyword, period, Policy.FIXED_AMOUNT, count);
+        super(name, keyword, period, PolicyType.FIXED_AMOUNT, count);
         this.amount = amount;
     }
 
