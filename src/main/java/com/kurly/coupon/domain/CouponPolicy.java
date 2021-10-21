@@ -39,7 +39,7 @@ public class CouponPolicy extends BaseEntity {
      */
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "coupon_number", nullable = false))
-    private CouponNumber couponNumber;
+    private CouponCode couponCode;
 
     /**
      * 기간.
@@ -60,24 +60,24 @@ public class CouponPolicy extends BaseEntity {
     @AttributeOverride(name = "value", column = @Column(name = "count"))
     private Count count;
 
-    public CouponPolicy(Name name, CouponNumber couponNumber, Period period, Policy policy, Count count) {
+    public CouponPolicy(Name name, CouponCode couponCode, Period period, Policy policy, Count count) {
         this.name = name;
-        this.couponNumber = couponNumber;
+        this.couponCode = couponCode;
         this.period = period;
         this.policy = policy;
         this.count = count;
     }
 
-    public static CouponPolicy createWithFixedPolicy(Name name, CouponNumber couponNumber, Period period, Amount amount, Count count) {
-        return new FixedAmount(name, couponNumber, period, amount, count);
+    public static CouponPolicy createWithFixedPolicy(Name name, CouponCode couponCode, Period period, Amount amount, Count count) {
+        return new FixedAmount(name, couponCode, period, amount, count);
     }
 
-    public static CouponPolicy createWithRatePolicy(Name name, CouponNumber couponNumber, Period period, Rate rate, Count count) {
-        return new FlatRate(name, couponNumber, period, rate, count);
+    public static CouponPolicy createWithRatePolicy(Name name, CouponCode couponCode, Period period, Rate rate, Count count) {
+        return new FlatRate(name, couponCode, period, rate, count);
     }
 
-    public String getCouponNumber() {
-        return couponNumber.getValue();
+    public String getCouponCode() {
+        return couponCode.getValue();
     }
 
     public Period getPeriod() {

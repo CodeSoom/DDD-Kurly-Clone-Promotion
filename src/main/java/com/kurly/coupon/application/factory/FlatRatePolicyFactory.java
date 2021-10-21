@@ -1,7 +1,7 @@
 package com.kurly.coupon.application.factory;
 
 import com.kurly.coupon.domain.Count;
-import com.kurly.coupon.domain.CouponNumber;
+import com.kurly.coupon.domain.CouponCode;
 import com.kurly.coupon.domain.CouponPolicy;
 import com.kurly.coupon.domain.Name;
 import com.kurly.coupon.domain.Period;
@@ -25,7 +25,7 @@ public class FlatRatePolicyFactory implements PolicyFactory {
 
     @Override
     public CouponPolicy createPolicy(CouponPolicyRegisterData dto) {
-        final CouponNumber generatedNumber = CouponNumber.of(couponNumberGenerator.generate());
+        final CouponCode generatedNumber = CouponCode.of(couponNumberGenerator.generate());
         final Period period = Period.createPeriod(dto.getStartDate(), dto.getEndDate());
         final Count count = Count.valueOf(dto.getCount());
         final Rate rate = Rate.valueOf(dto.getRate());
