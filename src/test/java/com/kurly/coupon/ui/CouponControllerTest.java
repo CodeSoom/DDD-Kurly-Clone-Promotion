@@ -45,7 +45,7 @@ class CouponControllerTest {
                 .name("amount policy")
                 .amount(100)
                 .count(100)
-                .policy(Policy.FIXED)
+                .policy(Policy.FIXED_AMOUNT)
                 .startDate(LocalDate.of(2030, 1, 1))
                 .endDate(LocalDate.of(2030, 12, 31))
                 .build();

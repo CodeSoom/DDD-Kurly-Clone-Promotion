@@ -1,7 +1,11 @@
 package com.kurly.coupon.application;
 
-import com.kurly.coupon.application.factory.Policies;
+import com.kurly.coupon.application.factory.FactoryPolicies;
+import com.kurly.coupon.domain.Amount;
+import com.kurly.coupon.domain.Count;
+import com.kurly.coupon.domain.CouponNumber;
 import com.kurly.coupon.domain.CouponPolicy;
+import com.kurly.coupon.domain.Name;
 import com.kurly.coupon.domain.Period;
 import com.kurly.coupon.domain.Policy;
 import com.kurly.coupon.dto.CouponPolicyRegisterData;
@@ -49,7 +53,7 @@ class CouponServiceTest {
                 .name(givenName)
                 .amount(givenAmount)
                 .count(givenCount)
-                .policy(Policy.FIXED)
+                .policy(Policy.FIXED_AMOUNT)
                 .startDate(givenStartDate)
                 .endDate(givenEndDate)
                 .build();
@@ -57,9 +61,15 @@ class CouponServiceTest {
         invalidCouponPolicyRegistrationData = CouponPolicyRegisterData.builder()
                 .build();
 
-        couponService = new CouponService(couponPolicyRepository, new Policies());
+        couponService = new CouponService(couponPolicyRepository, new FactoryPolicies());
 
-        createdPolicy = CouponPolicy.createWithFixedPolicy(givenName, givenCouponNumber, givenPeriod, givenCount, givenAmount);
+        createdPolicy = CouponPolicy.createWithFixedPolicy(
+                Name.of(givenName),
+                CouponNumber.of(givenCouponNumber),
+                givenPeriod,
+                Amount.valueOf(givenAmount),
+                Count.valueOf(givenCount)
+        );
         ReflectionTestUtils.setField(createdPolicy, "id", 1L);
     }
 

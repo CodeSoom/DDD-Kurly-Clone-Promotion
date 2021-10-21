@@ -20,7 +20,7 @@ public class Rate {
         this.value = value;
     }
 
-    public static Rate of(Integer rate) {
+    public static Rate valueOf(Integer rate) {
         if (rate <= MINIMUM_RATE) {
             throw new IllegalArgumentException("0보다 작은 값을 입력할 수 없습니다.");
         }
