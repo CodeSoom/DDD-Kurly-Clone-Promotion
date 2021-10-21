@@ -27,7 +27,7 @@ public class CouponPolicy extends BaseEntity {
      * 키워드(사용자쿠폰 입력시 사용).
      */
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "coupon_number", nullable = false))
+    @AttributeOverride(name = "value", column = @Column(name = "keyword", nullable = false))
     private Keyword keyword;
 
     /**
