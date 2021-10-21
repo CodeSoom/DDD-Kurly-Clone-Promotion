@@ -20,14 +20,14 @@ public class CouponPolicy extends BaseEntity {
     private Long id;
 
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
+    @AttributeOverride(name = "value", column = @Column(name = "name", nullable = false, unique = true))
     private Name name;
 
     /**
      * 키워드(사용자쿠폰 입력시 사용).
      */
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "keyword", nullable = false))
+    @AttributeOverride(name = "value", column = @Column(name = "keyword", nullable = false, unique = true))
     private Keyword keyword;
 
     /**
@@ -40,7 +40,7 @@ public class CouponPolicy extends BaseEntity {
      * 수량.
      */
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "count"))
+    @AttributeOverride(name = "value", column = @Column(name = "count", nullable = false))
     private Count count;
 
     public CouponPolicy(Name name, Keyword keyword, Period period, Count count) {

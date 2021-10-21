@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -85,6 +86,17 @@ class CouponServiceTest {
     @DisplayName("publishCouponPolicy는 올바르지 않은 정보가 입력되면 예외를 던집니다.")
     @Test
     void publish_with_invalid_coupon_policy() {
+        assertThatCode(() -> couponService.publishCouponPolicy(invalidCouponPolicyPublishData))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("publishCouponPolicy는 이미 정책이 등록이 되어있으면 예외를 던집니다.")
+    @Test
+    void publish_with_exist_coupon_policy() {
+        // given
+        given(couponPolicyRepository.findByNameOrKeyword(any(Name.class), any(Keyword.class)))
+                .willReturn(List.of(createdPolicy));
+
         assertThatCode(() -> couponService.publishCouponPolicy(invalidCouponPolicyPublishData))
                 .isInstanceOf(IllegalArgumentException.class);
     }
