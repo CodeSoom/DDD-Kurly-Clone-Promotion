@@ -37,23 +37,16 @@ public class CouponPolicy extends BaseEntity {
     private Period period;
 
     /**
-     * 정책.
-     */
-    @Enumerated(EnumType.STRING)
-    private PolicyType policyType;
-
-    /**
      * 수량.
      */
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "count"))
     private Count count;
 
-    public CouponPolicy(Name name, Keyword keyword, Period period, PolicyType policyType, Count count) {
+    public CouponPolicy(Name name, Keyword keyword, Period period, Count count) {
         this.name = name;
         this.keyword = keyword;
         this.period = period;
-        this.policyType = policyType;
         this.count = count;
     }
 

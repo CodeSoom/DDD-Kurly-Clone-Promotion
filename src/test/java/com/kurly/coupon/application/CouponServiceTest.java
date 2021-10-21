@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 class CouponServiceTest {
     private CouponPolicyPublishData couponPolicyPublishData;
-    private CouponPolicyPublishData invalidCouponPolicyRegistrationData;
+    private CouponPolicyPublishData invalidCouponPolicyPublishData;
 
     private CouponService couponService;
 
@@ -52,7 +52,7 @@ class CouponServiceTest {
                 .endDate(givenEndDate)
                 .build();
 
-        invalidCouponPolicyRegistrationData = CouponPolicyPublishData.builder()
+        invalidCouponPolicyPublishData = CouponPolicyPublishData.builder()
                 .build();
 
         couponService = new CouponService(couponPolicyRepository, new FactoryPolicies());
@@ -85,6 +85,7 @@ class CouponServiceTest {
     @DisplayName("publishCouponPolicy는 올바르지 않은 정보가 입력되면 예외를 던집니다.")
     @Test
     void publish_with_invalid_coupon_policy() {
-        assertThatCode(() -> couponService.publishCouponPolicy(invalidCouponPolicyRegistrationData));
+        assertThatCode(() -> couponService.publishCouponPolicy(invalidCouponPolicyPublishData))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

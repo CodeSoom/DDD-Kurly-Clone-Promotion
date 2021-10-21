@@ -17,7 +17,7 @@ public class FlatRate extends CouponPolicy {
     private Rate rate;
 
     public FlatRate(Name name, Keyword keyword, Period period, Rate rate, Count count) {
-        super(name, keyword, period, PolicyType.FLAT_RATE, count);
+        super(name, keyword, period, count);
         this.rate = rate;
     }
 
