@@ -1,10 +1,6 @@
 package com.kurly.coupon.domain;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * 정액 할인.
@@ -23,8 +19,8 @@ public class FixedAmount extends CouponPolicy {
     protected FixedAmount() {
     }
 
-    public FixedAmount(Name name, CouponCode couponCode, Period period, Amount amount, Count count) {
-        super(name, couponCode, period, Policy.FIXED_AMOUNT, count);
+    public FixedAmount(Name name, Keyword keyword, Period period, Amount amount, Count count) {
+        super(name, keyword, period, Policy.FIXED_AMOUNT, count);
         this.amount = amount;
     }
 

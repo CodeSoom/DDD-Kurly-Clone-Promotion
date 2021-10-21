@@ -8,12 +8,12 @@ class FixedAmountTest {
 
     @Test
     void create() {
-        final Name name = Name.of("test");
-        final CouponCode couponCode = CouponCode.of("aaa-bbb-ccc");
+        final Name name = Name.valueOf("test");
+        final Keyword keyword = Keyword.valueOf("aaa-bbb-ccc");
         final Period period = new Period();
         final Amount amount = Amount.valueOf(100);
         final Count count = Count.valueOf(100);
-        FixedAmount fixedAmount = new FixedAmount(name, couponCode, period, amount, count);
+        FixedAmount fixedAmount = new FixedAmount(name, keyword, period, amount, count);
 
         assertThat(fixedAmount.getAmount()).isNotNull();
     }
