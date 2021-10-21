@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,16 +15,20 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Entity
 public class CouponPolicy extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "name", nullable = false))
@@ -49,42 +54,26 @@ public class CouponPolicy extends BaseEntity {
     private Policy policy;
 
     /**
-     * 할인 비율.
-     */
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "rate"))
-    private Rate rate;
-
-    /**
-     * 할인 값.
-     */
-    @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "amount"))
-    private Amount amount;
-
-    /**
      * 수량.
      */
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "count"))
     private Count count;
 
-    private CouponPolicy(String name, String couponNumber, Period period, Policy policy, Rate rate, Count count, Amount amount) {
-        this.name = Name.of(name);
-        this.couponNumber = new CouponNumber(couponNumber);
+    public CouponPolicy(Name name, CouponNumber couponNumber, Period period, Policy policy, Count count) {
+        this.name = name;
+        this.couponNumber = couponNumber;
         this.period = period;
         this.policy = policy;
-        this.rate = rate;
         this.count = count;
-        this.amount = amount;
     }
 
-    public static CouponPolicy createWithFixedPolicy(String name, String couponNumber, Period period, int count, int amount) {
-        return new CouponPolicy(name, couponNumber, period, Policy.FIXED, null, Count.valueOf(count), Amount.valueOf(amount));
+    public static CouponPolicy createWithFixedPolicy(Name name, CouponNumber couponNumber, Period period, Amount amount, Count count) {
+        return new FixedAmount(name, couponNumber, period, amount, count);
     }
 
-    public static CouponPolicy createWithRatePolicy(String name, String couponNumber, Period period, int rate, int count) {
-        return new CouponPolicy(name, couponNumber, period, Policy.FLAT, Rate.of(rate), Count.valueOf(count), null);
+    public static CouponPolicy createWithRatePolicy(Name name, CouponNumber couponNumber, Period period, Rate rate, Count count) {
+        return new FlatRate(name, couponNumber, period, rate, count);
     }
 
     public String getCouponNumber() {
@@ -95,19 +84,32 @@ public class CouponPolicy extends BaseEntity {
         return period;
     }
 
-    public Integer getRate() {
-        return rate.getValue();
-    }
-
     public Integer getCount() {
         return count.getValue();
     }
 
-    public Integer getAmount() {
-        return amount.getValue();
-    }
-
     public String getName() {
         return name.getValue();
+    }
+
+    public Integer getAmount() {
+        return null;
+    }
+
+    public Integer getRate() {
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CouponPolicy)) return false;
+        CouponPolicy that = (CouponPolicy) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

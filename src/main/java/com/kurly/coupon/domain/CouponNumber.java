@@ -12,8 +12,12 @@ public class CouponNumber {
 
     private String value;
 
-    public CouponNumber(String value) {
+    private CouponNumber(String value) {
         this.value = value;
+    }
+
+    public static CouponNumber of(String value) {
+        return new CouponNumber(value);
     }
 
     public String getValue() {

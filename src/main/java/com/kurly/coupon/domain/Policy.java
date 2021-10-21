@@ -1,5 +1,5 @@
 package com.kurly.coupon.domain;
 
 public enum Policy {
-    FLAT, FIXED
+    FLAT_RATE, FIXED_AMOUNT
 }

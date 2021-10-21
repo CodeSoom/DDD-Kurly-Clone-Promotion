@@ -13,7 +13,7 @@ class CouponNumberTest {
     @Test
     void crate() {
         final String givenNumber = UUID.randomUUID().toString();
-        final CouponNumber couponNumber = new CouponNumber(givenNumber);
+        final CouponNumber couponNumber = CouponNumber.of(givenNumber);
 
         assertThat(couponNumber.getValue()).isEqualTo(givenNumber);
     }

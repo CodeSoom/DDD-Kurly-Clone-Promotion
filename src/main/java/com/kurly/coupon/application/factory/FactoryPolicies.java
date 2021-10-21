@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Policies {
+public class FactoryPolicies {
     public final List<PolicyFactory> policyFactories;
     private final CouponNumberGenerator couponNumberGenerator;
 
-    public Policies() {
+    public FactoryPolicies() {
         this.couponNumberGenerator = new UuidGenerator();
         this.policyFactories = List.of(
                 new FlatRatePolicyFactory(couponNumberGenerator),
