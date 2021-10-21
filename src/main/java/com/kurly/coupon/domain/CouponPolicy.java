@@ -24,7 +24,7 @@ public class CouponPolicy extends BaseEntity {
     private Name name;
 
     /**
-     * 쿠폰번호.
+     * 키워드(사용자쿠폰 입력시 사용).
      */
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "coupon_number", nullable = false))
@@ -40,7 +40,7 @@ public class CouponPolicy extends BaseEntity {
      * 정책.
      */
     @Enumerated(EnumType.STRING)
-    private Policy policy;
+    private PolicyType policyType;
 
     /**
      * 수량.
@@ -49,19 +49,19 @@ public class CouponPolicy extends BaseEntity {
     @AttributeOverride(name = "value", column = @Column(name = "count"))
     private Count count;
 
-    public CouponPolicy(Name name, Keyword keyword, Period period, Policy policy, Count count) {
+    public CouponPolicy(Name name, Keyword keyword, Period period, PolicyType policyType, Count count) {
         this.name = name;
         this.keyword = keyword;
         this.period = period;
-        this.policy = policy;
+        this.policyType = policyType;
         this.count = count;
     }
 
-    public static CouponPolicy createWithFixedPolicy(Name name, Keyword keyword, Period period, Amount amount, Count count) {
+    public static CouponPolicy publishFixedAmountPolicy(Name name, Keyword keyword, Period period, Amount amount, Count count) {
         return new FixedAmount(name, keyword, period, amount, count);
     }
 
-    public static CouponPolicy createWithRatePolicy(Name name, Keyword keyword, Period period, Rate rate, Count count) {
+    public static CouponPolicy publishRatePolicy(Name name, Keyword keyword, Period period, Rate rate, Count count) {
         return new FlatRate(name, keyword, period, rate, count);
     }
 

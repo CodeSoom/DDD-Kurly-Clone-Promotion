@@ -9,7 +9,7 @@ class FixedAmountTest {
     @Test
     void create() {
         final Name name = Name.valueOf("test");
-        final Keyword keyword = Keyword.valueOf("aaa-bbb-ccc");
+        final Keyword keyword = Keyword.valueOf("여름할인");
         final Period period = new Period();
         final Amount amount = Amount.valueOf(100);
         final Count count = Count.valueOf(100);

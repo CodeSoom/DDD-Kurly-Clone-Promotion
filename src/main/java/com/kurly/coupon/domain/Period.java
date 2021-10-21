@@ -3,6 +3,7 @@ package com.kurly.coupon.domain;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -20,11 +21,13 @@ public class Period {
     /**
      * 시작일.
      */
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
     /**
      * 만료일.
      */
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     private Period(LocalDate startDate, LocalDate endDate) {
@@ -36,7 +39,6 @@ public class Period {
         if (startDate == null || endDate == null) {
             throw new IllegalArgumentException(NULL_NOT_ALLOWED);
         }
-
         if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException(START_DATE_AFTER_END_DATE_EXCEPTION);
         }
