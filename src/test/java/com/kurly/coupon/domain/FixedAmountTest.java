@@ -13,7 +13,8 @@ class FixedAmountTest {
         final Period period = new Period();
         final Amount amount = Amount.valueOf(100);
         final Count count = Count.valueOf(100);
-        FixedAmount fixedAmount = new FixedAmount(name, keyword, period, amount, count);
+        final MinimumRedeemPrice minimumRedeemPrice = MinimumRedeemPrice.valueOf(1000);
+        FixedAmount fixedAmount = new FixedAmount(name, keyword, period, amount, count, minimumRedeemPrice);
 
         assertThat(fixedAmount.getAmount()).isNotNull();
     }

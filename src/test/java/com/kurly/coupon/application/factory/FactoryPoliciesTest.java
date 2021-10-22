@@ -23,6 +23,7 @@ class FactoryPoliciesTest {
     private Integer givenCount;
     private Integer givenAmount;
     private Integer givenRate;
+    private Integer givenOrderPrice;
 
     @BeforeEach
     void setUp() {
@@ -34,6 +35,7 @@ class FactoryPoliciesTest {
         givenAmount = 1000;
         givenRate = 10;
         givenCount = 100;
+        givenOrderPrice = 10000;
 
         flatRateRegisterData = CouponPolicyPublishData.builder()
                 .name(givenName)
@@ -42,6 +44,7 @@ class FactoryPoliciesTest {
                 .policyType(PolicyType.FLAT_RATE)
                 .startDate(givenStartDate)
                 .endDate(givenEndDate)
+                .minimumRedeemPrice(givenOrderPrice)
                 .build();
 
         fixedAmountRegisterData = CouponPolicyPublishData.builder()
@@ -50,6 +53,7 @@ class FactoryPoliciesTest {
                 .count(givenCount)
                 .policyType(PolicyType.FIXED_AMOUNT)
                 .startDate(givenStartDate)
+                .minimumRedeemPrice(null)
                 .endDate(givenEndDate)
                 .build();
     }
