@@ -22,18 +22,18 @@ public class CouponService {
     private final FactoryPolicies factoryPolicies;
 
     @Transactional
-    public Long publishCouponPolicy(CouponPolicyPublishData policyRegisterDto) {
-        if (!findPublishedPolicy(policyRegisterDto).isEmpty()) {
+    public Long publishCouponPolicy(CouponPolicyPublishData dto) {
+        if (!findPublishedPolicy(dto).isEmpty()) {
             throw new IllegalArgumentException(ALREADY_EXISTED_POLICY);
         }
-        final CouponPolicy couponPolicy = factoryPolicies.publishPolicy(policyRegisterDto);
+        final CouponPolicy couponPolicy = factoryPolicies.publishPolicy(dto);
         final CouponPolicy savedPolicy = couponPolicyRepository.save(couponPolicy);
         return savedPolicy.getId();
     }
 
-    private List<CouponPolicy> findPublishedPolicy(CouponPolicyPublishData policyRegisterDto) {
-        final Name name = Name.valueOf(policyRegisterDto.getName());
-        final Keyword keyword = Keyword.valueOf(policyRegisterDto.getKeyword());
+    private List<CouponPolicy> findPublishedPolicy(CouponPolicyPublishData dto) {
+        final Name name = Name.valueOf(dto.getName());
+        final Keyword keyword = Keyword.valueOf(dto.getKeyword());
         return couponPolicyRepository.findByNameOrKeyword(name, keyword);
     }
 }

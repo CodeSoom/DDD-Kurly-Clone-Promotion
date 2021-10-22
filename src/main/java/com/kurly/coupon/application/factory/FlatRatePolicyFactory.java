@@ -3,6 +3,7 @@ package com.kurly.coupon.application.factory;
 import com.kurly.coupon.domain.Count;
 import com.kurly.coupon.domain.CouponPolicy;
 import com.kurly.coupon.domain.Keyword;
+import com.kurly.coupon.domain.MinimumRedeemPrice;
 import com.kurly.coupon.domain.Name;
 import com.kurly.coupon.domain.Period;
 import com.kurly.coupon.domain.PolicyType;
@@ -25,7 +26,8 @@ public class FlatRatePolicyFactory implements PolicyFactory {
         final Count count = Count.valueOf(dto.getCount());
         final Rate rate = Rate.valueOf(dto.getRate());
         final Name name = Name.valueOf(dto.getName());
+        final MinimumRedeemPrice minimumRedeemPrice = MinimumRedeemPrice.valueOf(dto.getMinimumRedeemPrice());
 
-        return CouponPolicy.publishRatePolicy(name, keyword, period, rate, count);
+        return CouponPolicy.publishRatePolicy(name, keyword, period, rate, count, minimumRedeemPrice);
     }
 }

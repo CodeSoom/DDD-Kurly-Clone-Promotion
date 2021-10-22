@@ -1,7 +1,14 @@
 package com.kurly.coupon.application;
 
 import com.kurly.coupon.application.factory.FactoryPolicies;
-import com.kurly.coupon.domain.*;
+import com.kurly.coupon.domain.Amount;
+import com.kurly.coupon.domain.Count;
+import com.kurly.coupon.domain.CouponPolicy;
+import com.kurly.coupon.domain.Keyword;
+import com.kurly.coupon.domain.MinimumRedeemPrice;
+import com.kurly.coupon.domain.Name;
+import com.kurly.coupon.domain.Period;
+import com.kurly.coupon.domain.PolicyType;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 import com.kurly.coupon.infra.CouponPolicyRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +39,7 @@ class CouponServiceTest {
     private Period givenPeriod;
     private Integer givenCount;
     private Integer givenAmount;
+    private Integer givenPrice;
     private CouponPolicy createdPolicy;
 
     @BeforeEach
@@ -43,6 +51,7 @@ class CouponServiceTest {
         givenPeriod = Period.createPeriod(givenStartDate, givenEndDate);
         givenAmount = 1000;
         givenCount = 100;
+        givenPrice = 10000;
 
         couponPolicyPublishData = CouponPolicyPublishData.builder()
                 .name(givenName)
@@ -51,6 +60,7 @@ class CouponServiceTest {
                 .policyType(PolicyType.FIXED_AMOUNT)
                 .startDate(givenStartDate)
                 .endDate(givenEndDate)
+                .minimumRedeemPrice(givenPrice)
                 .build();
 
         invalidCouponPolicyPublishData = CouponPolicyPublishData.builder()
@@ -63,7 +73,8 @@ class CouponServiceTest {
                 Keyword.valueOf(givenKeyword),
                 givenPeriod,
                 Amount.valueOf(givenAmount),
-                Count.valueOf(givenCount)
+                Count.valueOf(givenCount),
+                MinimumRedeemPrice.valueOf(givenPrice)
         );
         ReflectionTestUtils.setField(createdPolicy, "id", 1L);
     }

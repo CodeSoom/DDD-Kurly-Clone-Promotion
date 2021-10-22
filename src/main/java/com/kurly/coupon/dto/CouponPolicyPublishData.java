@@ -22,11 +22,13 @@ public class CouponPolicyPublishData {
     @NotNull
     private String keyword;
     private Integer rate;
+    @NotNull
     private Integer count;
     private Integer amount;
+    private Integer minimumRedeemPrice;
 
     @Builder
-    public CouponPolicyPublishData(String name, LocalDate startDate, LocalDate endDate, PolicyType policyType, String keyword, Integer rate, Integer count, Integer amount) {
+    public CouponPolicyPublishData(String name, LocalDate startDate, LocalDate endDate, PolicyType policyType, String keyword, Integer rate, Integer count, Integer amount, Integer minimumRedeemPrice) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -35,5 +37,6 @@ public class CouponPolicyPublishData {
         this.rate = rate;
         this.count = count;
         this.amount = amount;
+        this.minimumRedeemPrice = minimumRedeemPrice;
     }
 }

@@ -13,7 +13,8 @@ class FlatRateTest {
         final Period period = new Period();
         final Rate rate = Rate.valueOf(100);
         final Count count = Count.valueOf(100);
-        FlatRate flatRate = new FlatRate(name, keyword, period, rate, count);
+        final MinimumRedeemPrice minimumRedeemPrice = MinimumRedeemPrice.valueOf(1000);
+        final FlatRate flatRate = new FlatRate(name, keyword, period, rate, count, minimumRedeemPrice);
 
         assertThat(flatRate.getRate()).isNotNull();
     }
