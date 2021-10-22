@@ -24,7 +24,6 @@ public class Count {
         if (value < MINIMUM_AMOUNT) {
             throw new IllegalArgumentException(MINIMUM_NUMBER_REQUIRED);
         }
-
         return new Count(value);
     }
 

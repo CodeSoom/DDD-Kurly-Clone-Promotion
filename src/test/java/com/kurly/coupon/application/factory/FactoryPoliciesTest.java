@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FactoryPoliciesTest {
-
     private CouponPolicyPublishData flatRateRegisterData;
     private CouponPolicyPublishData fixedAmountRegisterData;
 

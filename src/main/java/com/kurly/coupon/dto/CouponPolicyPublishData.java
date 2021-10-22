@@ -25,7 +25,6 @@ public class CouponPolicyPublishData {
     private Integer count;
     private Integer amount;
 
-
     @Builder
     public CouponPolicyPublishData(String name, LocalDate startDate, LocalDate endDate, PolicyType policyType, String keyword, Integer rate, Integer count, Integer amount) {
         this.name = name;

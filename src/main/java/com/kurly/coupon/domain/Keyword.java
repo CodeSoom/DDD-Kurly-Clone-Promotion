@@ -9,7 +9,6 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Keyword {
-
     private String value;
 
     private Keyword(String value) {
