@@ -40,7 +40,6 @@ class PeriodTest {
         final LocalDate startDate = LocalDate.of(2030, 1, 1);
         final LocalDate endDate = LocalDate.of(2000, 12, 31);
 
-
         assertThatCode(() -> Period.createPeriod(startDate, endDate))
                 .isInstanceOf(IllegalArgumentException.class);
     }

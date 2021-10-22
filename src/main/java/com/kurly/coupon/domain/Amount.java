@@ -11,7 +11,6 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Amount {
-
     private static final int MINIMUM_AMOUNT = 0;
     private static final String MINIMUM_NUMBER_REQUIRED = "0보다 작은 값이 입력될 수 없습니다.";
 
