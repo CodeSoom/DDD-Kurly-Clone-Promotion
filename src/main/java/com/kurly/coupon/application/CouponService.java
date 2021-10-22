@@ -1,16 +1,13 @@
 package com.kurly.coupon.application;
 
 import com.kurly.coupon.application.factory.FactoryPolicies;
+import com.kurly.coupon.domain.CouponPolicies;
 import com.kurly.coupon.domain.CouponPolicy;
-import com.kurly.coupon.domain.Keyword;
-import com.kurly.coupon.domain.Name;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 import com.kurly.coupon.infra.CouponPolicyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -23,17 +20,21 @@ public class CouponService {
 
     @Transactional
     public Long publishCouponPolicy(CouponPolicyPublishData dto) {
-        if (!findPublishedPolicy(dto).isEmpty()) {
-            throw new IllegalArgumentException(ALREADY_EXISTED_POLICY);
-        }
+        checkCouponDuplicated(dto);
         final CouponPolicy couponPolicy = factoryPolicies.publishPolicy(dto);
         final CouponPolicy savedPolicy = couponPolicyRepository.save(couponPolicy);
         return savedPolicy.getId();
     }
 
-    private List<CouponPolicy> findPublishedPolicy(CouponPolicyPublishData dto) {
-        final Name name = Name.valueOf(dto.getName());
-        final Keyword keyword = Keyword.valueOf(dto.getKeyword());
-        return couponPolicyRepository.findByNameOrKeyword(name, keyword);
+    private void checkCouponDuplicated(CouponPolicyPublishData dto) {
+        final CouponPolicies couponPolicies = findPublishedPolicy(dto);
+        if (couponPolicies.isKeywordDuplicated(dto.getKeywordVO()) ||
+                couponPolicies.isNameDuplicated(dto.getNameVO())) {
+            throw new IllegalArgumentException(ALREADY_EXISTED_POLICY);
+        }
+    }
+
+    private CouponPolicies findPublishedPolicy(CouponPolicyPublishData dto) {
+        return new CouponPolicies(couponPolicyRepository.findByNameOrKeyword(dto.getNameVO(), dto.getKeywordVO()));
     }
 }

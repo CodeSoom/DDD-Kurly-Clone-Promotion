@@ -103,6 +103,14 @@ public class CouponPolicy extends BaseEntity {
         return null;
     }
 
+    public boolean isSameName(Name name) {
+        return Objects.equals(this.name, name);
+    }
+
+    public boolean isSameKeyword(Keyword keyword) {
+        return Objects.equals(this.keyword, keyword);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

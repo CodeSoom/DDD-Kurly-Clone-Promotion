@@ -1,5 +1,7 @@
 package com.kurly.coupon.dto;
 
+import com.kurly.coupon.domain.Keyword;
+import com.kurly.coupon.domain.Name;
 import com.kurly.coupon.domain.PolicyType;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,4 +41,13 @@ public class CouponPolicyPublishData {
         this.amount = amount;
         this.minimumRedeemPrice = minimumRedeemPrice;
     }
+
+    public Name getNameVO() {
+        return Name.valueOf(name);
+    }
+
+    public Keyword getKeywordVO() {
+        return Keyword.valueOf(keyword);
+    }
+
 }
