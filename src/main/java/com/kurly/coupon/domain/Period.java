@@ -15,7 +15,6 @@ import java.util.Objects;
 @Embeddable
 public class Period {
     private static final String START_DATE_AFTER_END_DATE_EXCEPTION = "시작일보다 종료일이 이후가 될 수 없습니다.";
-    private static final String END_DATE_BEFORE_START_DATE_EXCEPTION = "종료일이 시작일보다 먼저 올 수 없습니다.";
     private static final String NULL_NOT_ALLOWED = "빈값이 될 수 없습니다";
 
     /**
@@ -41,9 +40,6 @@ public class Period {
         }
         if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException(START_DATE_AFTER_END_DATE_EXCEPTION);
-        }
-        if (endDate.isBefore(startDate)) {
-            throw new IllegalArgumentException(END_DATE_BEFORE_START_DATE_EXCEPTION);
         }
         return new Period(startDate, endDate);
     }
