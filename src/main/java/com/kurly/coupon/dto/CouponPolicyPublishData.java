@@ -42,11 +42,11 @@ public class CouponPolicyPublishData {
         this.minimumRedeemPrice = minimumRedeemPrice;
     }
 
-    public Name getNameVO() {
+    public Name convertNameVO() {
         return Name.valueOf(name);
     }
 
-    public Keyword getKeywordVO() {
+    public Keyword convertKeywordVO() {
         return Keyword.valueOf(keyword);
     }
 
