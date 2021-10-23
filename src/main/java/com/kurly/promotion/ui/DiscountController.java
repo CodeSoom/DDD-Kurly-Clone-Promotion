@@ -19,7 +19,10 @@ public class DiscountController {
     }
 
     @GetMapping
-    public List<Discount> list() {
-        return discountService.getDiscounts();
+    public List<DiscountData> list() {
+        DiscountList discountList = new DiscountList(
+                discountService.getDiscounts()
+        );
+        return discountList.list();
     }
 }
