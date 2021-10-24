@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -116,6 +117,50 @@ class DiscountControllerTest {
             @Test
             void It_responses_empty_list() throws Exception {
                 mockMvc.perform(get("/discounts"))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$").isEmpty());
+            }
+        }
+    }
+
+    @DisplayName("GET /discounts/products/{productId}")
+    @Nested
+    class Describe_get_discounts_products_with_productId {
+
+        @DisplayName("주어진 상품 식별자에 해당하는 할인이 있으면")
+        @Nested
+        class Context_when_discount_is_exists {
+            @BeforeEach
+            void setUp() {
+                given(discountService.getDiscountsByProductId(any(Long.class)))
+                        .willReturn(discountList);
+            }
+
+            @DisplayName("할인 목록을 응답한다")
+            @Test
+            void It_responses_discounts() throws Exception {
+                mockMvc.perform(get("/discounts/products/{productId}", 1L))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$", hasSize(1)))
+                        .andExpect(jsonPath("$[0].id").exists())
+                        .andExpect(jsonPath("$[0].flatRate").exists())
+                        .andExpect(jsonPath("$[0].productId").exists());
+            }
+        }
+
+        @DisplayName("주어진 상품 식별자에 해당하는 할인이 없으면")
+        @Nested
+        class Context_when_discount_is_not_exists {
+            @BeforeEach
+            void setUp() {
+                given(discountService.getDiscountsByProductId(any(Long.class)))
+                        .willReturn(List.of());
+            }
+
+            @DisplayName("빈 목록을 응답한다")
+            @Test
+            void It_responses_empty_list() throws Exception {
+                mockMvc.perform(get("/discounts/products/{productId}", 1L))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$").isEmpty());
             }
