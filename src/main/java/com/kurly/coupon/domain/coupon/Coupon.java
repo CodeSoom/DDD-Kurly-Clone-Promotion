@@ -2,6 +2,7 @@ package com.kurly.coupon.domain.coupon;
 
 import com.kurly.common.model.BaseEntity;
 import com.kurly.coupon.domain.policy.CouponPolicy;
+import com.kurly.coupon.domain.policy.Keyword;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,17 +44,31 @@ public class Coupon extends BaseEntity {
     @AttributeOverride(name = "value", column = @Column(name = "coupon_count", nullable = false))
     private CouponCount couponCount;
 
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "keyword", nullable = false, unique = true))
+    private Keyword keyword;
+
     private Coupon(Long id, CouponPolicy couponPolicy, Long userId, CouponStatus couponStatus, CouponCount couponCount) {
         this.id = id;
         this.couponPolicy = couponPolicy;
         this.userId = userId;
         this.couponStatus = couponStatus;
         this.couponCount = couponCount;
+        this.keyword = Keyword.valueOf(couponPolicy.getKeyword());
     }
 
     public static Coupon issueCoupon(CouponPolicy couponPolicy, Long userId, CouponCount count) {
         couponPolicy.decreaseCount(count.getValue());
         return new Coupon(null, couponPolicy, userId, CouponStatus.ISSUED, count);
+    }
+
+    public void increaseCouponCount(Integer count) {
+        this.couponPolicy.decreaseCount(count);
+        this.couponCount = CouponCount.valueOf(getCouponCount() + count);
+    }
+
+    public Integer getCouponCount() {
+        return couponCount.getValue();
     }
 
     @Override

@@ -1,9 +1,7 @@
-package com.kurly.coupon.application;
+package com.kurly.coupon.application.factory;
 
 import com.kurly.coupon.application.exception.PolicyNotFoundException;
-import com.kurly.coupon.application.factory.CouponFactory;
 import com.kurly.coupon.domain.coupon.Coupon;
-import com.kurly.coupon.domain.coupon.CouponCount;
 import com.kurly.coupon.domain.policy.Amount;
 import com.kurly.coupon.domain.policy.CouponPolicy;
 import com.kurly.coupon.domain.policy.Keyword;
@@ -12,75 +10,59 @@ import com.kurly.coupon.domain.policy.Name;
 import com.kurly.coupon.domain.policy.Period;
 import com.kurly.coupon.domain.policy.TotalCount;
 import com.kurly.coupon.dto.CouponIssueData;
-import com.kurly.coupon.infra.CouponRepository;
+import com.kurly.coupon.infra.CouponPolicyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
-class CouponServiceTest {
+class CouponFactoryTest {
+    private CouponPolicyRepository couponPolicyRepository = mock(CouponPolicyRepository.class);
+
+    private CouponFactory couponFactory;
     private CouponIssueData couponIssueData;
-    private CouponIssueData invalidCouponIssueData;
-
-    private CouponService couponService;
-    private CouponFactory couponFactory = mock(CouponFactory.class);
-    private CouponRepository couponRepository = mock(CouponRepository.class);
-
     private String givenKeyword;
-    private Long givenUserId;
-    private Integer givenCount;
-    private Coupon createdCoupon;
+    private int givenCount;
+    private long givenUserId;
     private CouponPolicy couponPolicy;
 
     @BeforeEach
     void setUp() {
-        couponService = new CouponService(couponRepository, couponFactory);
-
+        couponFactory = new CouponFactory(couponPolicyRepository);
         givenKeyword = "test keyword";
         givenCount = 2;
         givenUserId = 1L;
         couponPolicy = publishedCouponPolicy(givenKeyword);
         couponIssueData = new CouponIssueData(givenUserId, givenKeyword, givenCount);
-        invalidCouponIssueData = CouponIssueData.builder().build();
-        final CouponCount count = CouponCount.valueOf(givenCount);
-        createdCoupon = Coupon.issueCoupon(couponPolicy, givenUserId, count);
-
-        ReflectionTestUtils.setField(createdCoupon, "id", 1L);
     }
 
-    @DisplayName("issueCoupon는 쿠폰을 발급합니다.")
+    @DisplayName("쿠폰 발급 정보를 입력받아 쿠폰을 생성한다.")
     @Test
-    void issue_with_valid_coupon() {
-        // given
-        given(couponRepository.save(any(Coupon.class)))
-                .willReturn(createdCoupon);
-        given(couponFactory.issueCoupon(couponIssueData))
-                .willReturn(createdCoupon);
-
+    void create_coupon() {
+        given(couponPolicyRepository.findByKeyword(any(Keyword.class)))
+                .willReturn(Optional.of(couponPolicy));
         // when
-        final Long id = couponService.issueCoupon(couponIssueData);
+        final Coupon actual = couponFactory.issueCoupon(couponIssueData);
 
         // then
-        assertThat(id).isEqualTo(1L);
-        verify(couponRepository).save(any(Coupon.class));
+        assertThat(actual).isNotNull();
     }
 
-    @DisplayName("issueCoupon는 올바르지 않은 정보가 입력되면 예외를 던집니다.")
+    @DisplayName("존재하지 않는 쿠폰정책을 입력받으면 예외를 던진다.")
     @Test
-    void publish_with_invalid_coupon_policy() {
-        given(couponFactory.issueCoupon(invalidCouponIssueData))
+    void issue_with_not_exist_policy() {
+        given(couponPolicyRepository.findByKeyword(any(Keyword.class)))
                 .willThrow(PolicyNotFoundException.class);
 
-        assertThatCode(() -> couponService.issueCoupon(invalidCouponIssueData))
+        assertThatCode(() -> couponFactory.issueCoupon(couponIssueData))
                 .isInstanceOf(PolicyNotFoundException.class);
     }
 

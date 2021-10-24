@@ -1,40 +1,42 @@
 package com.kurly.coupon.application;
 
-import com.kurly.coupon.application.factory.FactoryPolicies;
-import com.kurly.coupon.domain.policy.CouponPolicies;
-import com.kurly.coupon.domain.policy.CouponPolicy;
-import com.kurly.coupon.dto.CouponPolicyPublishData;
-import com.kurly.coupon.infra.CouponPolicyRepository;
+import com.kurly.coupon.application.factory.CouponFactory;
+import com.kurly.coupon.domain.coupon.Coupon;
+import com.kurly.coupon.domain.policy.Keyword;
+import com.kurly.coupon.dto.CouponIssueData;
+import com.kurly.coupon.infra.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
+import java.util.Optional;
+
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 @Service
 public class CouponService {
-    private static final String ALREADY_EXISTED_POLICY = "이미 존재하는 정책입니다.";
-
-    private final CouponPolicyRepository couponPolicyRepository;
-    private final FactoryPolicies factoryPolicies;
+    private final CouponRepository couponRepository;
+    private final CouponFactory couponFactory;
 
     @Transactional
-    public Long publishCouponPolicy(CouponPolicyPublishData dto) {
-        checkCouponDuplicated(dto);
-        final CouponPolicy couponPolicy = factoryPolicies.publishPolicy(dto);
-        final CouponPolicy savedPolicy = couponPolicyRepository.save(couponPolicy);
-        return savedPolicy.getId();
-    }
-
-    private void checkCouponDuplicated(CouponPolicyPublishData dto) {
-        final CouponPolicies couponPolicies = findPublishedPolicy(dto);
-        if (couponPolicies.isKeywordDuplicated(dto.convertKeywordVO()) ||
-                couponPolicies.isNameDuplicated(dto.convertNameVO())) {
-            throw new IllegalArgumentException(ALREADY_EXISTED_POLICY);
+    public Long issueCoupon(CouponIssueData dto) {
+        Optional<Coupon> findCoupon = findCoupon(dto);
+        if (findCoupon(dto).isPresent()) {
+            return increaseCouponCount(dto, findCoupon.get());
         }
+        final Coupon coupon = couponFactory.issueCoupon(dto);
+        final Coupon saved = couponRepository.save(coupon);
+        return saved.getId();
     }
 
-    private CouponPolicies findPublishedPolicy(CouponPolicyPublishData dto) {
-        return new CouponPolicies(couponPolicyRepository.findByNameOrKeyword(dto.convertNameVO(), dto.convertKeywordVO()));
+    private Long increaseCouponCount(CouponIssueData dto, Coupon coupon) {
+        coupon.increaseCouponCount(dto.getCount());
+        return coupon.getId();
+    }
+
+    private Optional<Coupon> findCoupon(CouponIssueData dto) {
+        final Long userId = dto.getUserId();
+        final Keyword keyword = Keyword.valueOf(dto.getKeyword());
+        return couponRepository.findByUserIdAndKeyword(userId, keyword);
     }
 }
