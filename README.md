@@ -1,61 +1,63 @@
 ## 코드숨 마켓컬리 Domain Driven Design 클론 코딩 스터디 프로모션팀
- 마켓컬리의 프로모션 도메인을 담당한다.
-- Project URL
-- API Docoument
-- [Wiki](https://github.com/CodeSoom/DDD-Kurly-Clone-Promotion/wiki)
+마켓컬리의 프로모션 도메인을 담당한다.
 
-## UBIQUITOUS LANGUAGE
-(변동사항이 있을 수 있으니, 디스커션을 참조해 주세요.)
-### 할인(Discount)
-* `할인`을 `상품`에 등록할 수 있다.
-    * `할인` 대상 `상품`을 정할 수 있다.
-    * `할인`은 `정률 할인 정책`을 가진다.
-    
+### [API Document](https://kurly-clone-promotion.codesoom.com/swagger-ui/)
+### [Wiki](https://github.com/CodeSoom/DDD-Kurly-Clone-Promotion/wiki)
 
-### Attribute
-Discount
-| 속성 | 설명             | 관계 |
-| ------- | --------- | -------- |
-| id   | 할인의 식별자 |  |
-| flatRate   | 정률(할인 비율) |  |
-| productId | 상품의 식별자 |  |
-
-### 쿠폰(Coupon)
-* `쿠폰`을 `관리자`가 `등록`할 수 있다.
-    *  `쿠폰`은 `쿠폰번호`를 가진다.
-    * `쿠폰`은 `정률 할인` 정책을 가진다.
-    * `쿠폰`은 `정액 할인` 정책을 가진다.
-    * `쿠폰`은 `시작일`과 `만료일`의 `기간`을 가진다.
-    * `쿠폰`의 `최소 적용 금액` 조건을 설정할 수 있다.
-* `쿠폰`을 만들 개수를 지정할 수 있다.
-* `쿠폰`을 `사용자`에게 `발급` 할 수 있다.
-  * `쿠폰번호`를 `사용자`가 입력하면 `발급`된다.
-  * `쿠폰번호`가 존재하지 않는 번호를 `사용자`가 입력하면 오류가 발생한다.
-  * `쿠폰`이 `발급`되면 `사용여부`를 가진다.
-* `쿠폰` 목록을 가져올 수 있다.
-    * `쿠폰`을 `사용자`는 자신의 것만 볼 수 있다.
-    * `쿠폰`을 `사용자`는 `만료`된 것은 볼 수 없다.
-    * `쿠폰`을 `관리자`는 모두 볼 수 있다.
-* `쿠폰`을 `주문`에 적용할 수 있다.
-* `쿠폰`을 `만료`할 수 있다. 
-  * `쿠폰`이 `만료` 되면 사용할 수 없다.
-
-### Attribute
-Coupon
-| 속성 | 설명             | 관계 |
-| ------- | --------- | -------- |
-| id   | 쿠폰의 식별자 |  |
-|사용자 | 개인 정보를 보유하고 있으며 물건 구매를 위한 인증된 사용자| |
-|관리자 | 쿠폰을 관리하고 시스템을 관리하는 사용자| |
-| 쿠폰번호   | 쿠폰을 사용자가 등록할때 쓰는 번호 |  |
-| 정률   | 쿠폰의 적용 비율 |  |
-| 정액   | 적용 금액 |  |
-| 개수   | 사용가능한 쿠폰의 총 개수 |  |
-| orderId | 주문의 식별자 |  |
-| 기간 | 쿠폰이 적용 가능한 기간 |  |
-| 만료 | 쿠폰이 종료되어 사용할 수 없는 상태 |  |
-| 사용여부 | 쿠폰 사용여부 |  |
-
+## 프로젝트 구조
+```
+├── main
+    ├── java
+          └── com
+              └── kurly
+                  ├── PromotionApplication.java
+                  ├── common
+                  │   ├── config
+                  │   │   ├── JpaConfig.java
+                  │   │   └── SwaggerConfig.java
+                  │   └── model
+                  │       └── BaseEntity.java
+                  ├── coupon
+                  │   ├── application
+                  │   │   ├── CouponService.java
+                  │   │   └── factory
+                  │   │       ├── FactoryPolicies.java
+                  │   │       ├── FixedAmountPolicyFactory.java
+                  │   │       ├── FlatRatePolicyFactory.java
+                  │   │       └── PolicyFactory.java
+                  │   ├── domain
+                  │   │   ├── Amount.java
+                  │   │   ├── Count.java
+                  │   │   ├── CouponPolicies.java
+                  │   │   ├── CouponPolicy.java
+                  │   │   ├── FixedAmount.java
+                  │   │   ├── FlatRate.java
+                  │   │   ├── Keyword.java
+                  │   │   ├── MinimumRedeemPrice.java
+                  │   │   ├── Name.java
+                  │   │   ├── Period.java
+                  │   │   ├── PolicyType.java
+                  │   │   └── Rate.java
+                  │   ├── dto
+                  │   │   └── CouponPolicyPublishData.java
+                  │   ├── infra
+                  │   │   └── CouponPolicyRepository.java
+                  │   └── ui
+                  │       └── CouponController.java
+                  └── promotion
+                      ├── application
+                      │   └── DiscountService.java
+                      ├── controller
+                      │   └── DiscountController.java
+                      ├── domain
+                      │   └── Discount.java
+                      ├── dto
+                      │   └── DiscountRegistrationData.java
+                      ├── infra
+                      │   └── DiscountRepository.java
+                      └── ui
+                          └── HealthCheckController.java
+```
 ## 설치 방법
 ## 실행 방법
 ## 사용 및 기술환경
