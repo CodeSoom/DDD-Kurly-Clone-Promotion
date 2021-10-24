@@ -4,6 +4,8 @@ import com.kurly.promotion.application.DiscountService;
 import com.kurly.promotion.domain.Discount;
 import com.kurly.promotion.dto.DiscountRegistrationData;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +41,12 @@ public class DiscountController {
     }
 
     @GetMapping
-    public List<DiscountData> list() {
-        List<Discount> discountList = discountService.getDiscounts();
+    public List<DiscountData> list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        List<Discount> discountList = discountService.getDiscounts(pageRequest);
         return discountList.stream()
                 .map(DiscountDataMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());

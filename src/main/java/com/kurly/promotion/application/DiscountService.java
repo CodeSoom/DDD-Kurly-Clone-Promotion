@@ -3,6 +3,7 @@ package com.kurly.promotion.application;
 import com.kurly.promotion.domain.Discount;
 import com.kurly.promotion.infra.DiscountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,8 @@ public class DiscountService {
         return savedDiscount.getId();
     }
 
-    public List<Discount> getDiscounts() {
-        return discountRepository.findAll();
+    public List<Discount> getDiscounts(PageRequest pageRequest) {
+        return discountRepository.findAll(pageRequest)
+                .getContent();
     }
 }

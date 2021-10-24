@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -18,6 +21,8 @@ import static org.mockito.Mockito.verify;
 class DiscountServiceTest {
     static final Long PRODUCT_ID = 1L;
     static final Integer FLAT_RATE = 10;
+
+    final PageRequest pageRequest = PageRequest.of(0, 10);
 
     private Discount discount;
 
@@ -55,14 +60,21 @@ class DiscountServiceTest {
 
             @BeforeEach
             void setUp() {
-                given(discountRepository.findAll())
-                        .willReturn(List.of(discount));
+                PageImpl page = new PageImpl(
+                        List.of(discount),
+                        pageRequest,
+                        10
+                );
+
+                given(discountRepository.findAll(pageRequest))
+                        .willReturn(page);
             }
 
             @DisplayName("할인 목록을 반환한다")
             @Test
             void it_returns_discounts() {
-                List<Discount> discountList = discountService.getDiscounts();
+                List<Discount> discountList = discountService
+                        .getDiscounts(pageRequest);
 
                 assertThat(discountList.get(0).getId()).isEqualTo(discount.getId());
             }
@@ -74,13 +86,15 @@ class DiscountServiceTest {
 
             @BeforeEach
             void setUp() {
-                given(discountRepository.findAll()).willReturn(List.of());
+                given(discountRepository.findAll(pageRequest))
+                        .willReturn(Page.empty());
             }
 
             @DisplayName("빈 목록을 반환한다")
             @Test
             void it_returns_empty_list() {
-                List<Discount> discountList = discountService.getDiscounts();
+                List<Discount> discountList = discountService
+                        .getDiscounts(pageRequest);
 
                 assertThat(discountList).isEmpty();
             }

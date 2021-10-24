@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DiscountController.class)
 class DiscountControllerTest {
 
+    private final Long registeredId = 1L;
+    private final PageRequest pageRequest = PageRequest.of(0, 10);
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -33,12 +37,8 @@ class DiscountControllerTest {
 
     @MockBean
     private DiscountService discountService;
-
     private DiscountRegistrationData discountRegistrationData;
     private DiscountRegistrationData invalidDiscountRegistrationData;
-
-    private final Long registeredId = 1L;
-
     private List<Discount> discountList;
 
     @BeforeEach
@@ -88,7 +88,8 @@ class DiscountControllerTest {
         class Context_when_discount_is_exists {
             @BeforeEach
             void setUp() {
-                given(discountService.getDiscounts()).willReturn(discountList);
+                given(discountService.getDiscounts(pageRequest))
+                        .willReturn(discountList);
             }
 
             @DisplayName("할인 목록을 응답한다")
@@ -107,7 +108,8 @@ class DiscountControllerTest {
         class Context_when_discount_is_not_exists {
             @BeforeEach
             void setUp() {
-                given(discountService.getDiscounts()).willReturn(List.of());
+                given(discountService.getDiscounts(pageRequest))
+                        .willReturn(List.of());
             }
 
             @DisplayName("빈 목록을 응답한다")
