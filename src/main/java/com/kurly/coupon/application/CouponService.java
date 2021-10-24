@@ -20,9 +20,9 @@ public class CouponService {
 
     @Transactional
     public Long issueCoupon(CouponIssueData dto) {
-        Optional<Coupon> findCoupon = findCoupon(dto);
+        Optional<Coupon> foundCoupon = findCoupon(dto);
         if (findCoupon(dto).isPresent()) {
-            return increaseCouponCount(dto, findCoupon.get());
+            return increaseCouponCount(dto, foundCoupon.get());
         }
         final Coupon coupon = couponFactory.issueCoupon(dto);
         final Coupon saved = couponRepository.save(coupon);
