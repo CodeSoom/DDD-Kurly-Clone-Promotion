@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -39,6 +40,7 @@ public class Coupon extends BaseEntity {
     private CouponStatus couponStatus;
 
     @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "coupon_count", nullable = false))
     private CouponCount couponCount;
 
     private Coupon(Long id, CouponPolicy couponPolicy, Long userId, CouponStatus couponStatus, CouponCount couponCount) {
@@ -50,7 +52,7 @@ public class Coupon extends BaseEntity {
     }
 
     public static Coupon issueCoupon(CouponPolicy couponPolicy, Long userId, CouponCount count) {
-        couponPolicy.subtractCount(count.getValue());
+        couponPolicy.decreaseCount(count.getValue());
         return new Coupon(null, couponPolicy, userId, CouponStatus.ISSUED, count);
     }
 
