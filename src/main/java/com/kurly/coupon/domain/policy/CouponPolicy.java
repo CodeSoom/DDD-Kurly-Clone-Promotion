@@ -67,7 +67,7 @@ public class CouponPolicy extends BaseEntity {
         this.minimumRedeemPrice = minimumRedeemPrice;
     }
 
-    public void subtractCount(int count) {
+    public void decreaseCount(int count) {
         this.totalCount = TotalCount.valueOf(getTotalCount() - count);
     }
 
