@@ -27,6 +27,10 @@ public class CouponCount {
         return new CouponCount(value);
     }
 
+    public CouponCount increaseCount(Integer integer) {
+        return new CouponCount(this.value + integer);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
