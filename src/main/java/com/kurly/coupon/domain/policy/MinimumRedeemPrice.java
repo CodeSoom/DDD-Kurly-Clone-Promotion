@@ -1,4 +1,4 @@
-package com.kurly.coupon.domain;
+package com.kurly.coupon.domain.policy;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,29 +10,29 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class Amount {
+public class MinimumRedeemPrice {
     private static final int MINIMUM_AMOUNT = 0;
     private static final String MINIMUM_NUMBER_REQUIRED = "0보다 작은 값이 입력될 수 없습니다.";
 
     private Integer value;
 
-    private Amount(Integer value) {
+    private MinimumRedeemPrice(Integer value) {
         this.value = value;
     }
 
-    public static Amount valueOf(Integer value) {
-        if (value < MINIMUM_AMOUNT) {
+    public static MinimumRedeemPrice valueOf(Integer value) {
+        if (Objects.nonNull(value) && value < MINIMUM_AMOUNT) {
             throw new IllegalArgumentException(MINIMUM_NUMBER_REQUIRED);
         }
-        return new Amount(value);
+        return new MinimumRedeemPrice(value);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Amount)) return false;
-        Amount amount = (Amount) o;
-        return Objects.equals(getValue(), amount.getValue());
+        if (!(o instanceof MinimumRedeemPrice)) return false;
+        MinimumRedeemPrice that = (MinimumRedeemPrice) o;
+        return Objects.equals(getValue(), that.getValue());
     }
 
     @Override

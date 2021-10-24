@@ -1,4 +1,4 @@
-package com.kurly.coupon.domain;
+package com.kurly.coupon.domain.policy;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,13 +1,13 @@
 package com.kurly.coupon.application.factory;
 
-import com.kurly.coupon.domain.Count;
-import com.kurly.coupon.domain.CouponPolicy;
-import com.kurly.coupon.domain.Keyword;
-import com.kurly.coupon.domain.MinimumRedeemPrice;
-import com.kurly.coupon.domain.Name;
-import com.kurly.coupon.domain.Period;
-import com.kurly.coupon.domain.PolicyType;
-import com.kurly.coupon.domain.Rate;
+import com.kurly.coupon.domain.policy.Count;
+import com.kurly.coupon.domain.policy.CouponPolicy;
+import com.kurly.coupon.domain.policy.Keyword;
+import com.kurly.coupon.domain.policy.MinimumRedeemPrice;
+import com.kurly.coupon.domain.policy.Name;
+import com.kurly.coupon.domain.policy.Period;
+import com.kurly.coupon.domain.policy.PolicyType;
+import com.kurly.coupon.domain.policy.Rate;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 
 import java.util.Objects;

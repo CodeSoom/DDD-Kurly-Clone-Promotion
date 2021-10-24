@@ -1,4 +1,4 @@
-package com.kurly.coupon.domain;
+package com.kurly.coupon.domain.policy;
 
 import com.kurly.common.model.BaseEntity;
 import lombok.AccessLevel;
