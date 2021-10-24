@@ -2,6 +2,7 @@ package com.kurly.promotion.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * 할인 등록 정보.
  */
 @Getter
+@NoArgsConstructor
 public class DiscountRegistrationData {
 
     @NotNull
