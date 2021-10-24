@@ -49,8 +49,8 @@ public class CouponPolicy extends BaseEntity {
      * 수량.
      */
     @Embedded
-    @AttributeOverride(name = "value", column = @Column(name = "count", nullable = false))
-    private Count count;
+    @AttributeOverride(name = "value", column = @Column(name = "total_count", nullable = false))
+    private TotalCount totalCount;
 
     /**
      * 최소 적용 가격.
@@ -59,20 +59,24 @@ public class CouponPolicy extends BaseEntity {
     @AttributeOverride(name = "value", column = @Column(name = "min_redeem_price_"))
     private MinimumRedeemPrice minimumRedeemPrice;
 
-    public CouponPolicy(Name name, Keyword keyword, Period period, Count count, MinimumRedeemPrice minimumRedeemPrice) {
+    public CouponPolicy(Name name, Keyword keyword, Period period, TotalCount totalCount, MinimumRedeemPrice minimumRedeemPrice) {
         this.name = name;
         this.keyword = keyword;
         this.period = period;
-        this.count = count;
+        this.totalCount = totalCount;
         this.minimumRedeemPrice = minimumRedeemPrice;
     }
 
-    public static CouponPolicy publishFixedAmountPolicy(Name name, Keyword keyword, Period period, Amount amount, Count count, MinimumRedeemPrice minimumRedeemPrice) {
-        return new FixedAmount(name, keyword, period, amount, count, minimumRedeemPrice);
+    public void subtractCount(int count) {
+        this.totalCount = TotalCount.valueOf(getTotalCount() - count);
     }
 
-    public static CouponPolicy publishRatePolicy(Name name, Keyword keyword, Period period, Rate rate, Count count, MinimumRedeemPrice minimumRedeemPrice) {
-        return new FlatRate(name, keyword, period, rate, count, minimumRedeemPrice);
+    public static CouponPolicy publishFixedAmountPolicy(Name name, Keyword keyword, Period period, Amount amount, TotalCount totalCount, MinimumRedeemPrice minimumRedeemPrice) {
+        return new FixedAmount(name, keyword, period, amount, totalCount, minimumRedeemPrice);
+    }
+
+    public static CouponPolicy publishRatePolicy(Name name, Keyword keyword, Period period, Rate rate, TotalCount totalCount, MinimumRedeemPrice minimumRedeemPrice) {
+        return new FlatRate(name, keyword, period, rate, totalCount, minimumRedeemPrice);
     }
 
     public String getKeyword() {
@@ -83,8 +87,8 @@ public class CouponPolicy extends BaseEntity {
         return period;
     }
 
-    public Integer getCount() {
-        return count.getValue();
+    public Integer getTotalCount() {
+        return totalCount.getValue();
     }
 
     public String getName() {

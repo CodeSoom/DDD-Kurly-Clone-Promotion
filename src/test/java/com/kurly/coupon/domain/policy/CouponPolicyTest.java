@@ -14,7 +14,7 @@ class CouponPolicyTest {
     @Test
     void coupon_name() {
         final Name GIVEN_NAME = Name.valueOf("test");
-        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(GIVEN_NAME, new Keyword(), new Period(), new Amount(), new Count(), new MinimumRedeemPrice());
+        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(GIVEN_NAME, new Keyword(), new Period(), new Amount(), new TotalCount(), new MinimumRedeemPrice());
 
         assertThat(couponPolicy.getName()).isNotNull();
     }
@@ -23,7 +23,7 @@ class CouponPolicyTest {
     @Test
     void coupon_number() {
         final Keyword keyword = Keyword.valueOf("여름할인");
-        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), keyword, new Period(), new Amount(), new Count(), new MinimumRedeemPrice());
+        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), keyword, new Period(), new Amount(), new TotalCount(), new MinimumRedeemPrice());
         assertThat(couponPolicy.getKeyword()).isNotNull();
     }
 
@@ -34,7 +34,7 @@ class CouponPolicyTest {
         final LocalDate endDate = LocalDate.of(2030, 12, 31);
         final Period period = Period.createPeriod(startDate, endDate);
 
-        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), period, new Amount(), new Count(), new MinimumRedeemPrice());
+        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), period, new Amount(), new TotalCount(), new MinimumRedeemPrice());
 
         assertAll(
                 () -> assertThat(couponPolicy.getPeriod().getStartDate()).isNotNull(),
@@ -46,7 +46,7 @@ class CouponPolicyTest {
     @Test
     void minimum_order_price() {
         final MinimumRedeemPrice minimumRedeemPrice = MinimumRedeemPrice.valueOf(1000);
-        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), new Period(), new Amount(), new Count(), minimumRedeemPrice);
+        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), new Period(), new Amount(), new TotalCount(), minimumRedeemPrice);
 
         assertThat(couponPolicy.getMinimumRedeemPrice()).isEqualTo(1000);
     }
@@ -54,7 +54,7 @@ class CouponPolicyTest {
     @DisplayName("쿠폰정책은 정률 할인 정책을 가진다.")
     @Test
     void flat_policy() {
-        CouponPolicy couponPolicy = CouponPolicy.publishRatePolicy(new Name(), new Keyword(), new Period(), Rate.valueOf(50), new Count(), new MinimumRedeemPrice());
+        CouponPolicy couponPolicy = CouponPolicy.publishRatePolicy(new Name(), new Keyword(), new Period(), Rate.valueOf(50), new TotalCount(), new MinimumRedeemPrice());
 
         assertAll(
                 () -> assertThat(couponPolicy).isInstanceOf(FlatRate.class),
@@ -65,7 +65,7 @@ class CouponPolicyTest {
     @DisplayName("쿠폰정책은 정액 할인 정책을 가진다.")
     @Test
     void fix_policy() {
-        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), new Period(), Amount.valueOf(500), new Count(), new MinimumRedeemPrice());
+        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), new Period(), Amount.valueOf(500), new TotalCount(), new MinimumRedeemPrice());
         assertAll(
                 () -> assertThat(couponPolicy).isInstanceOf(FixedAmount.class),
                 () -> assertThat(couponPolicy.getAmount()).isEqualTo(500)
@@ -75,8 +75,8 @@ class CouponPolicyTest {
     @DisplayName("쿠폰정책에 쿠폰을 생성할 개수를 지정할 수 있다.")
     @Test
     void count() {
-        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), new Period(), new Amount(), Count.valueOf(5), new MinimumRedeemPrice());
+        final CouponPolicy couponPolicy = CouponPolicy.publishFixedAmountPolicy(new Name(), new Keyword(), new Period(), new Amount(), TotalCount.valueOf(5), new MinimumRedeemPrice());
 
-        assertThat(couponPolicy.getCount()).isEqualTo(5);
+        assertThat(couponPolicy.getTotalCount()).isEqualTo(5);
     }
 }

@@ -1,4 +1,4 @@
-package com.kurly.coupon.domain.policy;
+package com.kurly.coupon.domain.coupon;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,28 +10,28 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class Count {
+public class CouponCount {
     private static final int MINIMUM_AMOUNT = 0;
     private static final String MINIMUM_NUMBER_REQUIRED = "0보다 작은 값이 입력될 수 없습니다.";
 
     private Integer value;
 
-    private Count(Integer value) {
+    private CouponCount(Integer value) {
         this.value = value;
     }
 
-    public static Count valueOf(Integer value) {
+    public static CouponCount valueOf(Integer value) {
         if (value < MINIMUM_AMOUNT) {
             throw new IllegalArgumentException(MINIMUM_NUMBER_REQUIRED);
         }
-        return new Count(value);
+        return new CouponCount(value);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Count)) return false;
-        Count count = (Count) o;
+        if (!(o instanceof CouponCount)) return false;
+        CouponCount count = (CouponCount) o;
         return Objects.equals(getValue(), count.getValue());
     }
 

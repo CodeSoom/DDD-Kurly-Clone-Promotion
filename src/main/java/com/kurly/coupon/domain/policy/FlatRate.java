@@ -20,8 +20,8 @@ public class FlatRate extends CouponPolicy {
     @AttributeOverride(name = "value", column = @Column(name = "rate"))
     private Rate rate;
 
-    public FlatRate(Name name, Keyword keyword, Period period, Rate rate, Count count, MinimumRedeemPrice minimumRedeemPrice) {
-        super(name, keyword, period, count, minimumRedeemPrice);
+    public FlatRate(Name name, Keyword keyword, Period period, Rate rate, TotalCount totalCount, MinimumRedeemPrice minimumRedeemPrice) {
+        super(name, keyword, period, totalCount, minimumRedeemPrice);
         this.rate = rate;
     }
 

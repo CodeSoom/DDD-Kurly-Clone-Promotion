@@ -20,8 +20,8 @@ public class FixedAmount extends CouponPolicy {
     @AttributeOverride(name = "value", column = @Column(name = "amount"))
     private Amount amount;
 
-    public FixedAmount(Name name, Keyword keyword, Period period, Amount amount, Count count, MinimumRedeemPrice minimumRedeemPrice) {
-        super(name, keyword, period, count, minimumRedeemPrice);
+    public FixedAmount(Name name, Keyword keyword, Period period, Amount amount, TotalCount totalCount, MinimumRedeemPrice minimumRedeemPrice) {
+        super(name, keyword, period, totalCount, minimumRedeemPrice);
         this.amount = amount;
     }
 
