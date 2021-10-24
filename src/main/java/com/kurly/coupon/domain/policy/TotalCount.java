@@ -27,6 +27,9 @@ public class TotalCount {
         return new TotalCount(value);
     }
 
+    public TotalCount decreaseCount(Integer value) {
+        return new TotalCount(this.value - value);
+    }
 
     @Override
     public boolean equals(Object o) {

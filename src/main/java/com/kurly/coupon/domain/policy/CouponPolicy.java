@@ -68,7 +68,7 @@ public class CouponPolicy extends BaseEntity {
     }
 
     public void decreaseCount(int count) {
-        this.totalCount = TotalCount.valueOf(getTotalCount() - count);
+        this.totalCount = this.totalCount.decreaseCount(count);
     }
 
     public static CouponPolicy publishFixedAmountPolicy(Name name, Keyword keyword, Period period, Amount amount, TotalCount totalCount, MinimumRedeemPrice minimumRedeemPrice) {
