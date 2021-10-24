@@ -14,7 +14,7 @@ class CouponPoliciesTest {
         CouponPolicy couponPolicy = CouponPolicy.publishRatePolicy(
                 new Name(), new Keyword(),
                 new Period(), new Rate(),
-                new Count(), null
+                new TotalCount(), null
         );
         CouponPolicies couponPolicies = new CouponPolicies(List.of(couponPolicy));
 
@@ -28,7 +28,7 @@ class CouponPoliciesTest {
         final CouponPolicy couponPolicy = CouponPolicy.publishRatePolicy(
                 givenName, new Keyword(),
                 new Period(), new Rate(),
-                new Count(), null
+                new TotalCount(), null
         );
         final CouponPolicies couponPolicies = new CouponPolicies(List.of(couponPolicy));
 
@@ -42,7 +42,7 @@ class CouponPoliciesTest {
         final CouponPolicy couponPolicy = CouponPolicy.publishRatePolicy(
                 new Name(), givenKeyword,
                 new Period(), new Rate(),
-                new Count(), null
+                new TotalCount(), null
         );
         final CouponPolicies couponPolicies = new CouponPolicies(List.of(couponPolicy));
 

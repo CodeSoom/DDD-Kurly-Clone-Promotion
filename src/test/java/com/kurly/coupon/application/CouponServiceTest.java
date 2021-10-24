@@ -2,13 +2,13 @@ package com.kurly.coupon.application;
 
 import com.kurly.coupon.application.factory.FactoryPolicies;
 import com.kurly.coupon.domain.policy.Amount;
-import com.kurly.coupon.domain.policy.Count;
 import com.kurly.coupon.domain.policy.CouponPolicy;
 import com.kurly.coupon.domain.policy.Keyword;
 import com.kurly.coupon.domain.policy.MinimumRedeemPrice;
 import com.kurly.coupon.domain.policy.Name;
 import com.kurly.coupon.domain.policy.Period;
 import com.kurly.coupon.domain.policy.PolicyType;
+import com.kurly.coupon.domain.policy.TotalCount;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 import com.kurly.coupon.infra.CouponPolicyRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,7 +73,7 @@ class CouponServiceTest {
                 Keyword.valueOf(givenKeyword),
                 givenPeriod,
                 Amount.valueOf(givenAmount),
-                Count.valueOf(givenCount),
+                TotalCount.valueOf(givenCount),
                 MinimumRedeemPrice.valueOf(givenPrice)
         );
         ReflectionTestUtils.setField(createdPolicy, "id", 1L);

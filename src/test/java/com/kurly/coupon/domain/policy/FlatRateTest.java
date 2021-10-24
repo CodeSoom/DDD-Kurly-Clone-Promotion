@@ -12,9 +12,9 @@ class FlatRateTest {
         final Keyword keyword = Keyword.valueOf("여름할인");
         final Period period = new Period();
         final Rate rate = Rate.valueOf(100);
-        final Count count = Count.valueOf(100);
+        final TotalCount totalCount = TotalCount.valueOf(100);
         final MinimumRedeemPrice minimumRedeemPrice = MinimumRedeemPrice.valueOf(1000);
-        final FlatRate flatRate = new FlatRate(name, keyword, period, rate, count, minimumRedeemPrice);
+        final FlatRate flatRate = new FlatRate(name, keyword, period, rate, totalCount, minimumRedeemPrice);
 
         assertThat(flatRate.getRate()).isNotNull();
     }
