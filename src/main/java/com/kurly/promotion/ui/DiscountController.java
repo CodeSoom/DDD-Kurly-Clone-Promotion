@@ -1,6 +1,7 @@
 package com.kurly.promotion.ui;
 
 import com.kurly.promotion.application.DiscountService;
+import com.kurly.promotion.domain.Discount;
 import com.kurly.promotion.dto.DiscountRegistrationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 할인과 관련된 HTTP 요청 처리를 담당합니다.
@@ -38,9 +40,9 @@ public class DiscountController {
 
     @GetMapping
     public List<DiscountData> list() {
-        DiscountList discountList = new DiscountList(
-                discountService.getDiscounts()
-        );
-        return discountList.list();
+        List<Discount> discountList = discountService.getDiscounts();
+        return discountList.stream()
+                .map(DiscountDataMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 }
