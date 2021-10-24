@@ -33,4 +33,14 @@ public class DiscountService {
         return discountRepository.findAll(pageRequest)
                 .getContent();
     }
+
+    /**
+     * 주어진 상품 식별자에 해당하는 할인 목록을 리턴합니다.
+     *
+     * @param productId 상품 식별자
+     * @return 할인 목록
+     */
+    public List<Discount> getDiscountsByProductId(Long productId) {
+        return discountRepository.findAllByProductId(productId);
+    }
 }

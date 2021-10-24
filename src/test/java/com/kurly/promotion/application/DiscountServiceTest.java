@@ -100,4 +100,47 @@ class DiscountServiceTest {
             }
         }
     }
+
+    @DisplayName("getDiscountsByProductId")
+    @Nested
+    class Describe_getDiscountsByProductId {
+
+        @DisplayName("주어진 상품 식별자에 해당하는 할인이 있으면")
+        @Nested
+        class Context_when_discount_is_exists {
+
+            @BeforeEach
+            void setUp() {
+                given(discountRepository.findAllByProductId(PRODUCT_ID))
+                        .willReturn(List.of(discount));
+            }
+
+            @DisplayName("할인 목록을 반환한다")
+            @Test
+            void it_returns_discounts() {
+                List<Discount> discountList = discountService.getDiscountsByProductId(PRODUCT_ID);
+
+                assertThat(discountList.get(0).getId()).isEqualTo(discount.getId());
+            }
+        }
+
+        @DisplayName("주어진 상품 식별자에 해당하는 할인이 없으면")
+        @Nested
+        class Context_when_discount_is_not_exists {
+
+            @BeforeEach
+            void setUp() {
+                given(discountRepository.findAllByProductId(PRODUCT_ID))
+                        .willReturn(List.of());
+            }
+
+            @DisplayName("빈 목록을 반환한다")
+            @Test
+            void it_returns_empty_list() {
+                List<Discount> discountList = discountService.getDiscountsByProductId(PRODUCT_ID);
+
+                assertThat(discountList).isEmpty();
+            }
+        }
+    }
 }

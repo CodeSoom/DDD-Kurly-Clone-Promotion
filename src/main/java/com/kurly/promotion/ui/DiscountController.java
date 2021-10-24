@@ -5,7 +5,6 @@ import com.kurly.promotion.domain.Discount;
 import com.kurly.promotion.dto.DiscountRegistrationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +46,20 @@ public class DiscountController {
     ) {
         PageRequest pageRequest = PageRequest.of(page, size);
         List<Discount> discountList = discountService.getDiscounts(pageRequest);
+        return discountList.stream()
+                .map(DiscountDataMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 주어진 상품 식별자에 해당하는 할인 목록을 응답합니다.
+     *
+     * @param productId 상품 식별자
+     * @return 할인 목록
+     */
+    @GetMapping("/products/{productId}")
+    public List<DiscountData> listByProductId(@PathVariable Long productId) {
+        List<Discount> discountList = discountService.getDiscountsByProductId(productId);
         return discountList.stream()
                 .map(DiscountDataMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());

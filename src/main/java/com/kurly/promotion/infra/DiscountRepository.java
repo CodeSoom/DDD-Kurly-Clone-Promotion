@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 할인 저장소.
  */
@@ -15,4 +17,6 @@ public interface DiscountRepository
 
     @Override
     Page<Discount> findAll(Pageable pageable);
+
+    List<Discount> findAllByProductId(Long productId);
 }
