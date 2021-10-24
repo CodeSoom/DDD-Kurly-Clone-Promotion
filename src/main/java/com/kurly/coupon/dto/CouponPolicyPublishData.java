@@ -1,8 +1,8 @@
 package com.kurly.coupon.dto;
 
-import com.kurly.coupon.domain.Keyword;
-import com.kurly.coupon.domain.Name;
-import com.kurly.coupon.domain.PolicyType;
+import com.kurly.coupon.domain.policy.Keyword;
+import com.kurly.coupon.domain.policy.Name;
+import com.kurly.coupon.domain.policy.PolicyType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

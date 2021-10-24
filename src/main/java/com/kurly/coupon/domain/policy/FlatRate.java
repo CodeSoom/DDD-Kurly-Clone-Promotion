@@ -1,4 +1,4 @@
-package com.kurly.coupon.domain;
+package com.kurly.coupon.domain.policy;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;

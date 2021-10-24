@@ -1,4 +1,4 @@
-package com.kurly.coupon.domain;
+package com.kurly.coupon.domain.policy;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

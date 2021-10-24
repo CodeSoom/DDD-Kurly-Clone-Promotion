@@ -1,8 +1,8 @@
 package com.kurly.coupon.application;
 
 import com.kurly.coupon.application.factory.FactoryPolicies;
-import com.kurly.coupon.domain.CouponPolicies;
-import com.kurly.coupon.domain.CouponPolicy;
+import com.kurly.coupon.domain.policy.CouponPolicies;
+import com.kurly.coupon.domain.policy.CouponPolicy;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 import com.kurly.coupon.infra.CouponPolicyRepository;
 import lombok.RequiredArgsConstructor;

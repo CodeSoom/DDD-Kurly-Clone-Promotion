@@ -1,9 +1,9 @@
 package com.kurly.coupon.application.factory;
 
-import com.kurly.coupon.domain.CouponPolicy;
-import com.kurly.coupon.domain.FixedAmount;
-import com.kurly.coupon.domain.FlatRate;
-import com.kurly.coupon.domain.PolicyType;
+import com.kurly.coupon.domain.policy.CouponPolicy;
+import com.kurly.coupon.domain.policy.FixedAmount;
+import com.kurly.coupon.domain.policy.FlatRate;
+import com.kurly.coupon.domain.policy.PolicyType;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

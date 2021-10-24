@@ -2,7 +2,7 @@ package com.kurly.coupon.ui;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kurly.coupon.application.CouponService;
-import com.kurly.coupon.domain.PolicyType;
+import com.kurly.coupon.domain.policy.PolicyType;
 import com.kurly.coupon.dto.CouponPolicyPublishData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
