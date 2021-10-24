@@ -64,7 +64,7 @@ public class Coupon extends BaseEntity {
 
     public void increaseCouponCount(Integer count) {
         this.couponPolicy.decreaseCount(count);
-        this.couponCount = CouponCount.valueOf(getCouponCount() + count);
+        this.couponCount = couponCount.increaseCount(count);
     }
 
     public Integer getCouponCount() {
