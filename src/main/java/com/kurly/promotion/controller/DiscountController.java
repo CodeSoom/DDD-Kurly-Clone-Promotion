@@ -1,6 +1,9 @@
 package com.kurly.promotion.controller;
 
 import com.kurly.promotion.application.DiscountService;
+import com.kurly.promotion.domain.DiscountCommand;
+import com.kurly.promotion.domain.DiscountDtoMapper;
+import com.kurly.promotion.domain.DiscountType;
 import com.kurly.promotion.dto.DiscountRegistrationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +24,24 @@ import java.net.URI;
 public class DiscountController {
 
     private final DiscountService discountService;
+    private final DiscountDtoMapper discountDtoMapper;
+
 
     /**
      * 주어진 할인 정보를 등록합니다.
-     *
-     * @param discountRegistrationData 할인 등록 정보
+     * @param dto 할인 정보
      * @return 응답 정보
      */
     @PostMapping
     public ResponseEntity<Void> register(
-            @RequestBody @Valid DiscountRegistrationData discountRegistrationData
+            @RequestBody @Valid DiscountRegistrationData dto
     ) {
-        Long registeredId = discountService.registerDiscount(
-                discountRegistrationData.getFlatRate(), discountRegistrationData.getProductId()
-        );
+        DiscountCommand.RegisterDiscount requestDiscount = discountDtoMapper.of(dto);
+        Long productId = dto.getProductId();
+        DiscountType type = dto.getDiscountType();
+
+        Long registeredId = discountService.registerDiscount(requestDiscount, productId, type);
+
         return ResponseEntity.created(URI.create("/discounts/" + registeredId)).build();
     }
 }
