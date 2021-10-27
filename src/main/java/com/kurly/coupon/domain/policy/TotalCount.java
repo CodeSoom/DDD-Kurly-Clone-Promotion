@@ -28,7 +28,7 @@ public class TotalCount {
     }
 
     public TotalCount decreaseCount(Integer value) {
-        return new TotalCount(this.value - value);
+        return valueOf(this.value - value);
     }
 
     @Override

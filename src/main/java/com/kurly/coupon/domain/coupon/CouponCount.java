@@ -28,7 +28,7 @@ public class CouponCount {
     }
 
     public CouponCount increaseCount(Integer integer) {
-        return new CouponCount(this.value + integer);
+        return valueOf(this.value + integer);
     }
 
     @Override
