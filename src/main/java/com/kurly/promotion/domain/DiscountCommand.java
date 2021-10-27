@@ -11,7 +11,6 @@ import java.time.LocalDate;
  * Discount 도메인 객체의 생성을 정의
  */
 public class DiscountCommand {
-    DiscountCommand() { }
 
     @ToString
     @Getter
