@@ -3,16 +3,15 @@ package com.kurly.promotion.dto;
 import com.kurly.promotion.domain.DiscountType;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+
 
 /**
  * 할인 등록 정보.
  */
 @Getter
-@NoArgsConstructor
 public class DiscountRegistrationData {
 
     @NotNull

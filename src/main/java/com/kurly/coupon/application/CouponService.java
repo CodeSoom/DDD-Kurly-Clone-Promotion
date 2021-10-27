@@ -28,13 +28,14 @@ public class CouponService {
 
     private void checkCouponDuplicated(CouponPolicyPublishData dto) {
         final CouponPolicies couponPolicies = findPublishedPolicy(dto);
-        if (couponPolicies.isKeywordDuplicated(dto.getKeywordVO()) ||
-                couponPolicies.isNameDuplicated(dto.getNameVO())) {
+
+        if (couponPolicies.isKeywordDuplicated(dto.convertKeywordVO()) ||
+                couponPolicies.isNameDuplicated(dto.convertNameVO())) {
             throw new IllegalArgumentException(ALREADY_EXISTED_POLICY);
         }
     }
 
     private CouponPolicies findPublishedPolicy(CouponPolicyPublishData dto) {
-        return new CouponPolicies(couponPolicyRepository.findByNameOrKeyword(dto.getNameVO(), dto.getKeywordVO()));
+        return new CouponPolicies(couponPolicyRepository.findByNameOrKeyword(dto.convertNameVO(), dto.convertKeywordVO()));
     }
 }

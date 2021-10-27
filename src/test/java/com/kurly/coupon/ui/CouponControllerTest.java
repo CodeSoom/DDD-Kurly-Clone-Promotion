@@ -51,8 +51,7 @@ class CouponControllerTest {
                 .endDate(LocalDate.of(2030, 12, 31))
                 .build();
 
-        invalidCouponPolicyPublishData = CouponPolicyPublishData.builder()
-                .build();
+        invalidCouponPolicyPublishData = new CouponPolicyPublishData();
     }
 
     @DisplayName("POST 요청은 올바른 쿠폰정책 정보가 주어진다면 상태코드 201 Created 를 응답한다.")

@@ -1,0 +1,5 @@
+### CORS test: 상태코드 200을 응답해야 합니다.
+OPTIONS http://localhost:8080/discounts
+Origin: http://localhost:3000
+Access-Control-Request-Headers: Origin, Accept, Content-Type
+Access-Control-Request-Method: GET
