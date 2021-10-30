@@ -5,11 +5,17 @@ import com.kurly.promotion.domain.Discount;
 import com.kurly.promotion.domain.DiscountCommand;
 import com.kurly.promotion.domain.DiscountDtoMapper;
 import com.kurly.promotion.domain.DiscountType;
-import com.kurly.promotion.dto.DiscountRegistrationData;
+import com.kurly.promotion.dto.DiscountDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -30,16 +36,16 @@ public class DiscountController {
     /**
      * 주어진 할인 정보를 등록합니다.
      *
-     * @param discountRegistrationData 할인 등록 정보
+     * @param requestDiscount 할인 등록 정보
      * @return 응답 정보
      */
     @PostMapping
     public ResponseEntity<Void> register(
-            @RequestBody @Valid DiscountRegistrationData discountRegistrationData
-    ) {
-        DiscountCommand.RegisterDiscount registerDiscount = discountDtoMapper.of(discountRegistrationData);
-        Long productId = discountRegistrationData.getProductId();
-        DiscountType type = discountRegistrationData.getDiscountType();
+            @RequestBody @Valid DiscountDto.RegisterDiscount requestDiscount
+            ) {
+        DiscountCommand.RegisterDiscount registerDiscount = discountDtoMapper.of(requestDiscount);
+        Long productId = requestDiscount.getProductId();
+        DiscountType type = requestDiscount.getDiscountType();
 
         Long registeredId = discountService.registerDiscount(
                 registerDiscount,
