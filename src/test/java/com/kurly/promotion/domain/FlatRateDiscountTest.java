@@ -7,16 +7,11 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.security.InvalidParameterException;
-import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 class FlatRateDiscountTest {
-    /*private static final Period PERIOD = Period.builder()
-            .startDate(LocalDate.of(2030, 1, 1))
-            .endDate(LocalDate.of(2030, 12, 1))
-            .build();*/
 
     @DisplayName("할인 비율을 설정할 수 있다.")
     @ParameterizedTest
