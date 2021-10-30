@@ -13,9 +13,12 @@ import java.security.InvalidParameterException;
  * 정률 할인
  */
 @Getter
-@DiscriminatorValue("Rate")
+@DiscriminatorValue("RATE")
 @Entity
 public class FlatRateDiscount extends Discount{
+    private static final String MINIMUM_RATE_EXCEPTION = "0보다 작은 값을 입력할 수 없습니다.";
+    private static final String MAXIMUM_RATE_EXCEPTION = "최대 할인률을 초과하였습니다.";
+
     private static final int MINIMUM_RATE = 0;
     private static final int MAXIMUM_RATE = 100;
 
@@ -27,13 +30,13 @@ public class FlatRateDiscount extends Discount{
         super(period);
 
         if(flatRate == null){
-            throw new InvalidParameterException("flatRate에 빈 값을 입력할 수 없습니다.");
+            throw new InvalidParameterException("FlatRateDiscount.flatRate");
         }
         if (flatRate <= MINIMUM_RATE) {
-            throw new IllegalArgumentException("0보다 작은 값을 입력할 수 없습니다.");
+            throw new IllegalArgumentException(MINIMUM_RATE_EXCEPTION);
         }
         if (flatRate > MAXIMUM_RATE) {
-            throw new IllegalArgumentException("최대 할인 값을 초과하였습니다.");
+            throw new IllegalArgumentException(MAXIMUM_RATE_EXCEPTION);
         }
 
         this.flatRate = flatRate;
