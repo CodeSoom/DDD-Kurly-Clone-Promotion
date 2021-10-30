@@ -26,33 +26,40 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 class DiscountServiceTest {
-    private static final Long PRODUCT_ID = 1L;
-    private static final Integer FLAT_RATE = 10;
-    final PageRequest pageRequest = PageRequest.of(0, 10);
-    private Discount discount;
-    private Discount createdDiscount;
-    private DiscountCommand.RegisterDiscount registerDiscount;
+    private static final Long ID = 1L;
+    private static final Long PRODUCT_ID = 10L;
 
     private DiscountService discountService;
-
     private DiscountRepository discountRepository = mock(DiscountRepository.class);
+
+    private DiscountCommand.RegisterDiscount registerRequest;
+    private Discount createdDiscount;
+
+    private final PageRequest pageRequest = PageRequest.of(0, 10);
+    private Integer givenFlatRate;
+    private LocalDate givenStartDate;
+    private LocalDate givenEndDate;
 
     @BeforeEach
     void setUp() {
-        //this.discount = new Discount(1L, FLAT_RATE, PRODUCT_ID);
         discountService = new DiscountService(new DiscountFactory(), discountRepository);
 
-        registerDiscount = DiscountCommand.RegisterDiscount.builder()
-                .startDate(LocalDate.of(2030,10,25))
-                .endDate(LocalDate.of(2230,10,25))
-                .flatRate(20)
+        givenStartDate = LocalDate.of(2022, 1, 1);
+        givenEndDate = LocalDate.of(2222, 12, 31);
+        givenFlatRate = 20;
+
+        registerRequest = DiscountCommand.RegisterDiscount.builder()
+                .startDate(givenStartDate)
+                .endDate(givenEndDate)
+                .flatRate(givenFlatRate)
                 .build();
 
         createdDiscount = FlatRateDiscount.builder()
-                .flatRate(20)
-                .period(new Period())
+                .period(new Period(givenStartDate, givenEndDate))
+                .flatRate(givenFlatRate)
                 .build();
-        ReflectionTestUtils.setField(createdDiscount, "id", 1L);
+        createdDiscount.apply(PRODUCT_ID);
+        ReflectionTestUtils.setField(createdDiscount, "id", ID);
     }
 
     @DisplayName("registerDiscount는 할인을 등록합니다.")
@@ -63,10 +70,10 @@ class DiscountServiceTest {
                 .willReturn(createdDiscount);
 
         //when
-        Long id = discountService.registerDiscount(registerDiscount, PRODUCT_ID, DiscountType.FLAT_RATE);
+        Long id = discountService.registerDiscount(registerRequest, PRODUCT_ID, DiscountType.FLAT_RATE);
 
         //then
-        assertThat(id).isEqualTo(1L);
+        assertThat(id).isEqualTo(ID);
         verify(discountRepository).save(any(Discount.class));
     }
 
@@ -81,7 +88,7 @@ class DiscountServiceTest {
             @BeforeEach
             void setUp() {
                 PageImpl page = new PageImpl(
-                        List.of(discount),
+                        List.of(createdDiscount),
                         pageRequest,
                         10
                 );
@@ -96,7 +103,7 @@ class DiscountServiceTest {
                 List<Discount> discountList = discountService
                         .getDiscounts(pageRequest);
 
-                assertThat(discountList.get(0).getId()).isEqualTo(discount.getId());
+                assertThat(discountList.get(0).getId()).isEqualTo(createdDiscount.getId());
             }
         }
 
@@ -132,7 +139,7 @@ class DiscountServiceTest {
             @BeforeEach
             void setUp() {
                 given(discountRepository.findAllByProductId(PRODUCT_ID))
-                        .willReturn(List.of(discount));
+                        .willReturn(List.of(createdDiscount));
             }
 
             @DisplayName("할인 목록을 반환한다")
@@ -140,7 +147,7 @@ class DiscountServiceTest {
             void it_returns_discounts() {
                 List<Discount> discountList = discountService.getDiscountsByProductId(PRODUCT_ID);
 
-                assertThat(discountList.get(0).getId()).isEqualTo(discount.getId());
+                assertThat(discountList.get(0).getId()).isEqualTo(createdDiscount.getId());
             }
         }
 
