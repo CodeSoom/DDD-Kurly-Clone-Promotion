@@ -22,7 +22,7 @@ class DiscountFactoryTest {
                 .startDate(LocalDate.of(2020, 10, 25))
                 .endDate(LocalDate.of(2230, 11, 25))
                 .flatRate(20)
-                .fixedAmout(20)
+                .fixedAmount(20)
                 .build();
     }
 

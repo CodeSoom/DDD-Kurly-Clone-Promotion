@@ -14,7 +14,7 @@ import java.security.InvalidParameterException;
  */
 @Getter
 @Entity
-@DiscriminatorValue("fixedAmount")
+@DiscriminatorValue("AMOUNT")
 public class FixedAmountDiscount extends Discount {
 
     @Column(name = "fixed_amount", nullable = false)
@@ -25,7 +25,7 @@ public class FixedAmountDiscount extends Discount {
         super(period);
 
         if(fixedAmount == null){
-            throw new InvalidParameterException("빈 값을 입력할 수 없습니다.");
+            throw new InvalidParameterException("FixedAmountDiscount.fixedAmount");
         }
 
         this.fixedAmount = fixedAmount;
