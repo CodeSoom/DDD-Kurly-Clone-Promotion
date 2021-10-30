@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * 기간
+ * 기간.
  */
 @ToString
 @Getter
